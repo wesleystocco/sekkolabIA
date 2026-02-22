@@ -30,36 +30,33 @@ try {
   };
 }
 
-// Contar total de perguntas no curso
 const totalPerguntas = dadosCurso.modulos?.reduce((acc, m) => 
   acc + m.microModulos?.reduce((acc2, mm) => acc2 + (mm.pergunta ? 1 : 0), 0), 0) || 0;
 
 const totalModulos = dadosCurso.modulos?.reduce((acc, m) => acc + (m.microModulos?.length || 0), 0) || 0;
 
-// Dados iniciais de gamificação (serão sobrescritos pelo localStorage)
+// Dados iniciais de gamificação
 const pontosUsuario = 150;
 const nivelUsuario = 2;
 const conquistasUsuario = [
-  { id: 'iniciado', nome: 'Primeiros Passos', icone: '🚀', desbloqueada: true },
-  { id: 'quiz1', nome: 'Mestre do Quiz', icone: '🧠', desbloqueada: false },
-  { id: 'streak3', nome: '3 Dias Seguidos', icone: '🔥', desbloqueada: true },
+  { id: 'iniciado', nome: 'Primeiros Passos', icone: '🚀' },
+  { id: 'quiz1', nome: 'Mestre do Quiz', icone: '🧠' },
+  { id: 'streak3', nome: '3 Dias Seguidos', icone: '🔥' },
 ];
 const streakDias = 5;
 const streakData = new Date().toISOString().split('T')[0];
 ---
 
 <MainLayout title={`${dadosCurso.titulo} – Curso Grátis`}>
-  <!-- Pontuação fixa no canto superior direito -->
-  <Pontuacao pontos={pontosUsuario} nivel={nivelUsuario} conquistas={conquistasUsuario} client:load />
+  <!-- Pontuação fixa no canto superior direito (sem client:load) -->
+  <Pontuacao pontos={pontosUsuario} nivel={nivelUsuario} conquistas={conquistasUsuario} />
 
   <div class="max-w-5xl mx-auto px-4 py-12">
-    <!-- Breadcrumb -->
     <Breadcrumb items={[
       { label: 'Cursos Gratuitos', href: '/cursos-gratuitos' },
       { label: dadosCurso.titulo }
     ]} />
     
-    <!-- Navegação do curso -->
     <CourseNavigation 
       courseSlug={slug}
       courseTitle={dadosCurso.titulo}
@@ -105,12 +102,11 @@ const streakData = new Date().toISOString().split('T')[0];
           </div>
         </div>
         
-        <!-- Streak Counter -->
         <StreakCounter diasConsecutivos={streakDias} ultimaData={streakData} />
       </div>
     </div>
 
-    <!-- Seletor de Tempo - Nova versão com cards -->
+    <!-- Seletor de Tempo -->
     <div class="bg-slate-800/50 rounded-2xl p-6 mb-8 border border-white/5">
       <h2 class="text-white font-semibold mb-4 flex items-center gap-2">
         <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -155,7 +151,7 @@ const streakData = new Date().toISOString().split('T')[0];
     <div id="modulos-container" class="space-y-8"></div>
   </div>
 
-  <!-- Pausa Ativa -->
+  <!-- Pausa Ativa – sem client:load, pois é um componente Astro puro -->
   <PausaAtiva />
 </MainLayout>
 
@@ -191,10 +187,9 @@ const streakData = new Date().toISOString().split('T')[0];
     if (novoNivel > nivel) {
       nivel = novoNivel;
       localStorage.setItem('nivel', nivel);
-      // Poderia disparar uma notificação de up
     }
     
-    // Atualizar componente Pontuacao via evento customizado
+    // Disparar evento para atualizar o componente Pontuacao (opcional)
     document.dispatchEvent(new CustomEvent('atualizar-pontuacao', { 
       detail: { pontos, nivel, conquistas } 
     }));
@@ -213,35 +208,27 @@ const streakData = new Date().toISOString().split('T')[0];
   function getModulosPorTempo(tempo) {
     const naoConcluidos = todosMicroModulos.filter(m => !concluidos.includes(m.id));
     
-    // Calcular número alvo de perguntas baseado no tempo (1 pergunta a cada 3 min)
     const perguntasAlvo = Math.max(5, Math.floor(tempo / 3));
     
     let selecionados = [];
     let somaTempo = 0;
     let perguntasCount = 0;
     
-    // Separar módulos com e sem pergunta
     const comPerguntas = naoConcluidos.filter(m => m.pergunta);
     const semPerguntas = naoConcluidos.filter(m => !m.pergunta);
     
-    // Ordenar comPerguntas por tempo (menor primeiro para caber mais)
     comPerguntas.sort((a, b) => a.tempo - b.tempo);
     
     for (let m of comPerguntas) {
       if (perguntasCount < perguntasAlvo) {
-        // Se estourar o tempo, ainda adiciona? Vamos tentar respeitar o tempo
         if (somaTempo + m.tempo <= tempo) {
           selecionados.push(m);
           somaTempo += m.tempo;
           perguntasCount++;
-        } else {
-          // Se não couber, mas ainda faltam perguntas, adiciona mesmo assim?
-          // Por enquanto, não adiciona se estourar o tempo.
         }
       }
     }
     
-    // Se não atingiu o mínimo de perguntas, adicionar mais (mesmo que ultrapasse um pouco o tempo)
     if (perguntasCount < perguntasAlvo) {
       for (let m of comPerguntas) {
         if (!selecionados.includes(m) && perguntasCount < perguntasAlvo) {
@@ -252,7 +239,6 @@ const streakData = new Date().toISOString().split('T')[0];
       }
     }
     
-    // Se ainda não atingiu o mínimo, incluir módulos sem perguntas (conteúdo extra)
     if (perguntasCount < perguntasAlvo) {
       for (let m of semPerguntas) {
         if (!selecionados.includes(m) && perguntasCount < perguntasAlvo) {
@@ -263,7 +249,6 @@ const streakData = new Date().toISOString().split('T')[0];
       }
     }
     
-    // Se ainda assim não houver módulos, pegar o primeiro disponível
     if (selecionados.length === 0 && naoConcluidos.length > 0) {
       selecionados = [naoConcluidos[0]];
     }
@@ -287,7 +272,6 @@ const streakData = new Date().toISOString().split('T')[0];
       `;
       
       microsFiltrados.forEach(micro => {
-        // Embaralhar opções
         let opcoesHTML = '';
         if (micro.pergunta && micro.opcoes) {
           const opcoesEmbaralhadas = shuffleArray([...micro.opcoes]);
@@ -310,10 +294,9 @@ const streakData = new Date().toISOString().split('T')[0];
           `;
         }
         
-        // Atividade
         let atividadeHTML = '';
         if (micro.atividade) {
-          const exemplo = micro.exemploAtividade || "Exemplo: 'Aqui vai um exemplo de resposta...' (substitua pelo seu conteúdo)";
+          const exemplo = micro.exemploAtividade || "Exemplo: 'Aqui vai um exemplo de resposta...'";
           atividadeHTML = `
             <div class="atividade-wrapper">
               <div class="atividade-container bg-slate-800/50 rounded-2xl p-6 border border-white/5" data-atividade-id="${micro.id}" data-pontos="50">
@@ -357,7 +340,6 @@ const streakData = new Date().toISOString().split('T')[0];
           `;
         }
         
-        // Leituras
         let leiturasHTML = '';
         if (micro.leituras && micro.leituras.length > 0) {
           leiturasHTML = `
@@ -429,7 +411,6 @@ const streakData = new Date().toISOString().split('T')[0];
       container.innerHTML += moduloHTML;
     });
     
-    // Reinicializar listeners
     inicializarListenersAtividades();
     inicializarListenersQuiz();
     inicializarListenersConcluir();
@@ -459,10 +440,8 @@ const streakData = new Date().toISOString().split('T')[0];
       
       function handleAtividadeSubmit() {
         if (textarea.value.length >= 50) {
-          // Validação simples: verificar se contém algumas palavras-chave
           const resposta = textarea.value.toLowerCase();
           const modulo = todosMicroModulos.find(m => m.id === id);
-          // Exemplo de validação: se a atividade for sobre SEO, verificar se contém "SEO" ou "otimização"
           let valido = true;
           let mensagemErro = '';
           if (modulo && modulo.titulo.toLowerCase().includes('seo')) {
@@ -560,11 +539,10 @@ const streakData = new Date().toISOString().split('T')[0];
     btn.disabled = true;
     btn.textContent = 'Concluído ✓';
     
-    adicionarPontos(5); // Pontos por concluir um módulo
+    adicionarPontos(5);
     document.dispatchEvent(new CustomEvent('modulo-concluido', { detail: { id } }));
   }
 
-  // Escutar eventos de atividades
   document.addEventListener('atividade-concluida', (e) => {
     const { id } = e.detail;
     if (!concluidos.includes(id)) {
@@ -574,7 +552,7 @@ const streakData = new Date().toISOString().split('T')[0];
     }
   });
 
-  // Seletor de tempo - novo estilo
+  // Seletor de tempo
   document.querySelectorAll('.tempo-card').forEach(card => {
     card.addEventListener('click', (e) => {
       const time = parseInt(card.dataset.time);
@@ -591,12 +569,10 @@ const streakData = new Date().toISOString().split('T')[0];
     });
   });
 
-  // Inicialização
   window.addEventListener('load', () => {
     atualizarProgresso();
     const modulosIniciais = getModulosPorTempo(15);
     renderizarModulos(modulosIniciais);
-    // Marcar o card de 15 como ativo inicialmente
     document.querySelector('[data-time="15"]')?.classList.add('bg-cyan-600');
   });
 </script>
