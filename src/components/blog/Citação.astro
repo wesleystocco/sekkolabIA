@@ -1,0 +1,11 @@
+---
+// src/components/blog/Citacao.astro
+interface Props {
+  autor?: string;
+}
+const { autor } = Astro.props;
+---
+<blockquote class="border-l-4 border-cyan-500 bg-cyan-500/5 pl-4 py-2 my-6 italic text-slate-300">
+  <slot />
+  {autor && <footer class="text-sm text-slate-500 mt-2">— {autor}</footer>}
+</blockquote>

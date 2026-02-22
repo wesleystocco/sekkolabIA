@@ -1,0 +1,59 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import { BookOpen, Target, Heart } from 'lucide-astro';
+
+const livrosRecomendados = [
+  { titulo: 'O Poder do Hábito', autor: 'Charles Duhigg' },
+  { titulo: 'Marketing 5.0', autor: 'Philip Kotler' },
+  { titulo: 'A Bíblia de Vendas', autor: 'Jeffrey Gitomer' },
+  { titulo: 'Hooked: Como Construir Produtos e Serviços Formadores de Hábitos', autor: 'Nir Eyal' },
+  { titulo: 'Inteligência Artificial: Como Ela Está Transformando os Negócios', autor: 'Andrew McAfee' },
+  { titulo: 'Rápido e Devagar', autor: 'Daniel Kahneman' },
+];
+---
+
+<MainLayout title="Sobre – SekkoLab IA">
+  <div class="max-w-4xl mx-auto px-4 py-16">
+    <h1 class="text-4xl md:text-5xl font-heading font-black text-white mb-8">Sobre o <span class="text-primary">SekkoLab</span></h1>
+    
+    <div class="prose prose-invert prose-lg max-w-none">
+      <p>
+        O <strong>SekkoLab IA</strong> nasceu da frustração de ver o mercado brasileiro preso em ferramentas de 2023 enquanto o mundo já operava em 2026. Nosso objetivo é simples: <strong>ensinar profissionais a usarem Inteligência Artificial para obter resultados reais em marketing, vendas e carreira.</strong>
+      </p>
+
+      <p>
+        Aqui você não encontra teoria vazia. Nosso método é 100% prático, com foco em <strong>engenharia de prompt, automações e cases reais</strong>. Acreditamos que a IA não é uma ameaça, mas sim a maior oportunidade da década para quem souber usá-la.
+      </p>
+
+      <h2>Quem está por trás</h2>
+      <p>
+        O projeto é idealizado por <strong>Wesley Stocco</strong>, profissional com mais de 10 anos de experiência em marketing digital e vendas. Apaixonado por tecnologia e educação, Wesley uniu sua expertise à IA para criar o SekkoLab, um laboratório de experimentos e resultados.
+      </p>
+
+      <p>
+        Nossa missão é capacitar 10.000 profissionais brasileiros até 2028 a multiplicarem seus resultados com ajuda da Inteligência Artificial.
+      </p>
+
+      <h2>Recomendações de livros que nos inspiraram</h2>
+      <p>
+        Acreditamos que conhecimento sólido vem de boas fontes. Aqui estão alguns livros que moldaram nossa visão e que recomendamos a todos os alunos:
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 not-prose mt-6">
+        {livrosRecomendados.map(livro => (
+          <div class="flex items-start gap-3 bg-white/5 p-4 rounded-xl">
+            <BookOpen class="w-5 h-5 text-primary flex-shrink-0 mt-1" />
+            <div>
+              <span class="text-white font-medium">{livro.titulo}</span>
+              <span class="text-sm text-slate-400 block">{livro.autor}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p class="mt-8">
+        Essa lista é apenas o começo. Dentro do nosso curso, você terá acesso a dezenas de outras recomendações e resumos.
+      </p>
+    </div>
+  </div>
+</MainLayout>

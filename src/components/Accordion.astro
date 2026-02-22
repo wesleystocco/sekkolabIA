@@ -1,0 +1,19 @@
+---
+export interface Props {
+  items: Array<{ title: string; content: string }>;
+}
+
+const { items } = Astro.props;
+---
+
+<div class="space-y-4">
+  {items.map((item, index) => (
+    <details class="group bg-slate-900/50 border border-white/5 rounded-2xl p-4 [&_summary::-webkit-details-marker]:hidden">
+      <summary class="flex items-center justify-between cursor-pointer list-none">
+        <span class="text-white font-bold text-lg">{item.title}</span>
+        <span class="text-primary transition-transform group-open:rotate-180">▼</span>
+      </summary>
+      <div class="mt-4 text-slate-400 leading-relaxed" set:html={item.content} />
+    </details>
+  ))}
+</div>

@@ -1,0 +1,21 @@
+---
+---
+
+<div class="flex flex-wrap gap-2 justify-center my-6">
+  <button class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition" data-time="5">5-8 min</button>
+  <button class="px-4 py-2 bg-primary text-white rounded-lg transition" data-time="15">10-15 min</button>
+  <button class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition" data-time="30">20-30 min</button>
+  <button class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition" data-time="60">45-60 min</button>
+</div>
+
+<script>
+  const buttons = document.querySelectorAll('[data-time]');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const time = parseInt(btn.dataset.time);
+      buttons.forEach(b => b.classList.remove('bg-primary', 'text-white'));
+      btn.classList.add('bg-primary', 'text-white');
+      document.dispatchEvent(new CustomEvent('tempo-selecionado', { detail: time }));
+    });
+  });
+</script>

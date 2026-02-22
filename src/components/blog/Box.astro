@@ -1,0 +1,17 @@
+---
+// src/components/blog/Box.astro
+interface Props {
+  type?: 'dica' | 'importante' | 'aviso';
+  title?: string;
+}
+const { type = 'dica', title } = Astro.props;
+const colors = {
+  dica: 'border-cyan-500 bg-cyan-500/10',
+  importante: 'border-amber-500 bg-amber-500/10',
+  aviso: 'border-red-500 bg-red-500/10',
+};
+---
+<div class={`p-4 rounded-xl border-l-4 ${colors[type]} my-6`}>
+  {title && <h4 class="font-bold text-white mb-2">{title}</h4>}
+  <slot />
+</div>

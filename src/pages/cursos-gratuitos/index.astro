@@ -1,0 +1,49 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import CursoCard from '../../components/CursoCard.astro';
+import { BookOpen } from 'lucide-astro';
+
+// Importar dados dos cursos gratuitos
+import seo from '../../data/cursos/seo-com-ia.json';
+import copy from '../../data/cursos/copy-com-ia.json';
+import produtividade from '../../data/cursos/produtividade-ia.json';
+import trafego from '../../data/cursos/trafego-pago-ia.json';
+
+const cursosGratuitos = [seo, copy, produtividade, trafego];
+---
+
+<MainLayout title="Cursos Gratuitos – SekkoLab IA">
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <!-- Cabeçalho -->
+    <div class="text-center mb-16">
+      <h1 class="text-4xl md:text-5xl font-heading font-black text-white mb-4">
+        Cursos <span class="text-cyan-400">Gratuitos</span>
+      </h1>
+      <p class="text-xl text-slate-400 max-w-3xl mx-auto">
+        Conteúdo de altíssima qualidade para você começar sua jornada com IA. 
+        Todos os cursos são gratuitos e incluem certificado de conclusão.
+      </p>
+    </div>
+
+    <!-- Grade de cursos -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {cursosGratuitos.map(curso => (
+        <CursoCard
+          titulo={curso.titulo}
+          descricao={curso.descricao}
+          cargaHoraria={curso.cargaHoraria}
+          slug={curso.id}
+          gratuito={true}
+        />
+      ))}
+    </div>
+
+    <!-- Informação extra -->
+    <div class="mt-16 text-center">
+      <div class="inline-flex items-center gap-2 bg-slate-800/50 px-6 py-3 rounded-full border border-white/5">
+        <BookOpen class="w-5 h-5 text-cyan-400" />
+        <span class="text-slate-300">+50 horas de conteúdo gratuito</span>
+      </div>
+    </div>
+  </div>
+</MainLayout>

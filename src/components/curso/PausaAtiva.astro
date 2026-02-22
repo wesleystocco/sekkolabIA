@@ -1,0 +1,125 @@
+---
+// src/components/curso/PausaAtiva.astro
+interface Props {
+  tipo?: 'respiracao' | 'alongamento' | 'hidratacao' | 'olhos';
+}
+
+const { tipo = 'respiracao' } = Astro.props;
+
+const pausas = {
+  respiracao: {
+    titulo: "Respire Fundo",
+    duracao: 30,
+    passos: ["Inspire por 4 segundos", "Segure por 4 segundos", "Expire por 4 segundos", "Repita 3 vezes"]
+  },
+  alongamento: {
+    titulo: "Alongamento Rápido",
+    duracao: 45,
+    passos: ["Estique os braços para cima", "Alongue o pescoço para os lados", "Rode os ombros", "Sente-se ereto"]
+  },
+  hidratacao: {
+    titulo: "Hora de Hidratar",
+    duracao: 10,
+    passos: ["Pegue seu copo de água", "Tome um gole", "Você está hidratado!"]
+  },
+  olhos: {
+    titulo: "Descanso Visual",
+    duracao: 20,
+    passos: ["Olhe para algo a 6 metros de distância", "Foque por 20 segundos", "Pisque algumas vezes"]
+  }
+};
+
+const pausa = pausas[tipo];
+---
+
+<div id="pausa-ativa" class="fixed inset-0 z-50 hidden">
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+  
+  <!-- Modal -->
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md p-6">
+    <div class="bg-slate-900 border border-white/10 rounded-3xl p-8 shadow-2xl text-center">
+      <!-- Animação -->
+      <div class="mb-6">
+        <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center animate-pulse">
+          <svg class="w-12 h-12 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+          </svg>
+        </div>
+      </div>
+      
+      <!-- Título -->
+      <h3 class="text-2xl font-bold text-white mb-2">{pausa.titulo}</h3>
+      <p class="text-slate-400 mb-6">⏱️ {pausa.duracao} segundos</p>
+      
+      <!-- Passos -->
+      <div class="space-y-3 mb-8">
+        {pausa.passos.map((passo, index) => (
+          <div class="flex items-center gap-3 p-3 bg-slate-800/50 rounded-xl">
+            <div class="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 font-bold text-sm">
+              {index + 1}
+            </div>
+            <span class="text-slate-200">{passo}</span>
+          </div>
+        ))}
+      </div>
+      
+      <!-- Timer -->
+      <div class="mb-6">
+        <div id="pausa-timer" class="text-4xl font-bold text-cyan-400 font-mono">{pausa.duracao}</div>
+      </div>
+      
+      <!-- Botão -->
+      <button id="pausa-fechar" class="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold rounded-xl hover:from-cyan-400 hover:to-blue-400 transition-all shadow-lg shadow-cyan-500/30">
+        Continuar Aprendendo
+      </button>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ tipo, duracao: pausa.duracao }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const pausaContainer = document.getElementById('pausa-ativa');
+    const timerDisplay = document.getElementById('pausa-timer');
+    const fecharBtn = document.getElementById('pausa-fechar');
+    let timer = null;
+    
+    // Mostrar pausa a cada 3 módulos
+    let modulosCompletados = 0;
+    
+    document.addEventListener('modulo-concluido', () => {
+      modulosCompletados++;
+      if (modulosCompletados % 3 === 0) {
+        mostrarPausa();
+      }
+    });
+    
+    function mostrarPausa() {
+      if (!pausaContainer || !timerDisplay) return;
+      
+      pausaContainer.classList.remove('hidden');
+      let tempoRestante = duracao;
+      timerDisplay.textContent = tempoRestante;
+      
+      timer = setInterval(() => {
+        tempoRestante--;
+        if (tempoRestante <= 0) {
+          clearInterval(timer);
+          timerDisplay.textContent = '✓';
+        } else {
+          timerDisplay.textContent = tempoRestante;
+        }
+      }, 1000);
+    }
+    
+    function fecharPausa() {
+      if (pausaContainer) pausaContainer.classList.add('hidden');
+      if (timer) clearInterval(timer);
+    }
+    
+    fecharBtn?.addEventListener('click', fecharPausa);
+    pausaContainer?.addEventListener('click', (e) => {
+      if (e.target === pausaContainer) fecharPausa();
+    });
+  });
+</script>

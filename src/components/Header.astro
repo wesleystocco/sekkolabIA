@@ -1,0 +1,104 @@
+---
+import { Menu, X, Cpu, ChevronRight, GraduationCap, Gift } from 'lucide-astro';
+
+const currentPath = Astro.url.pathname;
+
+const isActive = (path: string) => {
+  if (path === '/') return currentPath === '/';
+  return currentPath.startsWith(path);
+};
+---
+
+<div class="fixed top-4 inset-x-0 z-50 px-4">
+  <header class="max-w-6xl mx-auto">
+    <nav class="bg-slate-950/60 backdrop-blur-xl border border-white/10 rounded-3xl px-6 py-3 shadow-2xl shadow-primary/10">
+      <div class="flex justify-between items-center">
+        
+        <!-- Logo -->
+        <a href="/" class="flex items-center gap-2 group">
+          <div class="bg-gradient-to-br from-primary to-accent p-2 rounded-xl group-hover:rotate-12 transition-transform duration-300">
+            <Cpu class="w-6 h-6 text-white" />
+          </div>
+          <span class="text-xl font-heading font-black tracking-tighter text-white">
+            SEKKO<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">LAB</span>
+          </span>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center gap-6">
+          <a href="/" class={`text-sm font-medium transition-colors ${isActive('/') ? 'text-white font-bold' : 'text-slate-300 hover:text-white'}`}>
+            Início
+          </a>
+          
+          <a href="/cursos" class={`flex items-center gap-1 text-sm font-bold px-4 py-2 rounded-full border transition ${
+            isActive('/cursos') 
+              ? 'bg-primary text-white border-primary' 
+              : 'text-slate-300 border-white/10 hover:bg-primary/20 hover:border-primary/30'
+          }`}>
+            <GraduationCap class="w-4 h-4" />
+            Cursos
+          </a>
+          
+          <a href="/cursos-gratuitos" class={`flex items-center gap-1 text-sm font-medium transition-colors ${
+            isActive('/cursos-gratuitos') 
+              ? 'text-white font-bold' 
+              : 'text-slate-300 hover:text-white'
+          }`}>
+            <Gift class="w-4 h-4 text-accent" />
+            Grátis
+          </a>
+          
+          <a href="/blog" class={`text-sm font-medium transition-colors ${isActive('/blog') ? 'text-white font-bold' : 'text-slate-300 hover:text-white'}`}>
+            Blog
+          </a>
+          <a href="/recursos" class={`text-sm font-medium transition-colors ${isActive('/recursos') ? 'text-white font-bold' : 'text-slate-300 hover:text-white'}`}>
+            Recursos
+          </a>
+        </nav>
+
+        <!-- Desktop CTA -->
+        <div class="hidden md:flex items-center">
+          <a href="/cursos" class="group relative inline-flex items-center justify-center px-6 py-2.5 font-bold text-white transition-all duration-200 bg-primary border border-primary/30 rounded-2xl hover:bg-primary/80">
+            <span class="relative flex items-center gap-2">
+              Começar Agora
+              <ChevronRight class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </span>
+          </a>
+        </div>
+
+        <!-- Mobile menu button -->
+        <div class="md:hidden flex items-center">
+          <button id="mobile-menu-btn" class="p-2 text-slate-300" aria-label="Menu">
+            <Menu class="w-6 h-6" id="icon-menu" />
+            <X class="w-6 h-6 hidden" id="icon-close" />
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile menu -->
+      <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 space-y-4 border-t border-white/5 pt-4">
+        <a href="/" class="block text-slate-300 font-medium">Início</a>
+        <a href="/cursos" class="block text-white font-bold bg-primary/20 p-3 rounded-xl">Cursos Pagos</a>
+        <a href="/cursos-gratuitos" class="block text-slate-300 font-medium flex items-center gap-2">
+          <Gift class="w-4 h-4 text-accent" /> Cursos Grátis
+        </a>
+        <a href="/blog" class="block text-slate-300 font-medium">Blog</a>
+        <a href="/recursos" class="block text-slate-300 font-medium">Recursos</a>
+        <a href="/cursos" class="block text-center bg-primary py-3 rounded-2xl font-bold">Acessar Trilha IA</a>
+      </div>
+    </nav>
+  </header>
+</div>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const iconMenu = document.getElementById('icon-menu');
+  const iconClose = document.getElementById('icon-close');
+
+  btn?.addEventListener('click', () => {
+    menu?.classList.toggle('hidden');
+    iconMenu?.classList.toggle('hidden');
+    iconClose?.classList.toggle('hidden');
+  });
+</script>

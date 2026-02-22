@@ -1,0 +1,22 @@
+{
+    "id": "trafego-pago-ia",
+    "titulo": "Tráfego Pago Inteligente",
+    "descricao": "Use IA para criar anúncios no Google e Meta que convertem mais com menor custo.",
+    "cargaHoraria": 7,
+    "modulos": [{
+        "nome": "Módulo 1: Fundamentos de Tráfego Pago",
+        "microModulos": [{
+            "id": "1.1",
+            "titulo": "O que é tráfego pago?",
+            "tempo": 5,
+            "conteudo": "<p>Tráfego pago é quando você paga para que seus anúncios sejam exibidos para um público específico. Com IA, podemos otimizar lances e segmentação.</p>",
+            "leituras": [
+                { "titulo": "Google Ads: O Guia Definitivo", "autor": "Perry Marshall", "link": "#" },
+                { "titulo": "Facebook Ads para Iniciantes", "autor": "Brian Meert", "link": "#" }
+            ],
+            "pergunta": "O que significa CPC?",
+            "opcoes": ["Custo por clique", "Cliques por campanha", "Custo por lead"],
+            "respostaCorreta": 0
+        }]
+    }]
+}

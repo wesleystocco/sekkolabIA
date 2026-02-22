@@ -1,0 +1,73 @@
+---
+import { Linkedin, Instagram, Youtube, Mail, Phone } from 'lucide-astro';
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-[#0B1120] border-t border-slate-800 pt-16 pb-8 mt-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
+      
+      <div class="col-span-1 md:col-span-2">
+        <a href="/" class="text-2xl font-heading font-bold tracking-tighter text-white">
+          SekkoLab <span class="text-primary">IA</span>
+        </a>
+        <p class="mt-4 text-slate-400 text-sm max-w-md leading-relaxed">
+          Transformamos profissionais brasileiros em especialistas com Inteligência Artificial. Domine SEO, Tráfego, Copywriting e Produtividade para faturar 10x mais.
+        </p>
+        <div class="mt-6 flex space-x-5">
+          <a href="#" aria-label="LinkedIn" class="text-slate-500 hover:text-primary transition-colors">
+            <Linkedin class="w-5 h-5" />
+          </a>
+          <a href="#" aria-label="Instagram" class="text-slate-500 hover:text-accent transition-colors">
+            <Instagram class="w-5 h-5" />
+          </a>
+          <a href="#" aria-label="YouTube" class="text-slate-500 hover:text-primary transition-colors">
+            <Youtube class="w-5 h-5" />
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-sm font-semibold tracking-wider uppercase text-slate-200">Navegação</h3>
+        <ul class="mt-4 space-y-3">
+          <li><a href="/cursos" class="text-sm text-slate-400 hover:text-primary transition-colors">Trilha IA: Do Zero ao Topo</a></li>
+          <li><a href="/cursos-gratuitos" class="text-sm text-slate-400 hover:text-primary transition-colors">Cursos Grátis</a></li>
+          <li><a href="/blog" class="text-sm text-slate-400 hover:text-primary transition-colors">Blog & Artigos</a></li>
+          <li><a href="/recursos" class="text-sm text-slate-400 hover:text-primary transition-colors">Materiais Gratuitos</a></li>
+          <li><a href="/sobre" class="text-sm text-slate-400 hover:text-primary transition-colors">Sobre Nós</a></li>
+          <li><a href="/biblioteca" class="text-sm text-slate-400 hover:text-primary transition-colors">Biblioteca</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-sm font-semibold tracking-wider uppercase text-slate-200">Contato</h3>
+        <ul class="mt-4 space-y-3">
+          <li>
+            <a href="mailto:wesleystocco100@gmail.com" class="text-sm text-slate-400 hover:text-primary transition-colors flex items-center gap-2">
+              <Mail class="w-4 h-4" /> wesleystocco100@gmail.com
+            </a>
+          </li>
+          <li>
+            <a href="tel:+5554996294915" class="text-sm text-slate-400 hover:text-primary transition-colors flex items-center gap-2">
+              <Phone class="w-4 h-4" /> +55 54 99629-4915
+            </a>
+          </li>
+        </ul>
+        <h3 class="text-sm font-semibold tracking-wider uppercase text-slate-200 mt-6">Legal</h3>
+        <ul class="mt-4 space-y-3">
+          <li><a href="#" class="text-sm text-slate-400 hover:text-primary transition-colors">Termos de Uso</a></li>
+          <li><a href="#" class="text-sm text-slate-400 hover:text-primary transition-colors">Políticas de Privacidade</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-16 pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center">
+      <p class="text-sm text-slate-500">
+        &copy; {currentYear} SekkoLab IA. Todos os direitos reservados.
+      </p>
+      <p class="text-sm text-slate-500 mt-2 md:mt-0">
+        Desenvolvido com tecnologia de ponta e Inteligência Artificial.
+      </p>
+    </div>
+  </div>
+</footer>

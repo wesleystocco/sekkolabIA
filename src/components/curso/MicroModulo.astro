@@ -1,0 +1,103 @@
+---
+// src/components/curso/MicroModulo.astro
+interface Props {
+  modulo: {
+    id: string;
+    titulo: string;
+    tempo: number;
+    conteudo: string;
+    imagem?: string;
+    leituras?: Array<{ titulo: string; autor: string; link: string }>;
+    pergunta?: string;
+    opcoes?: string[];
+    respostaCorreta?: number;
+    atividade?: string;
+    tipoAtividade?: string;
+  };
+  numero: number;
+}
+
+const { modulo, numero } = Astro.props;
+
+const temQuiz = modulo.pergunta && modulo.opcoes && modulo.respostaCorreta !== undefined;
+const temAtividade = modulo.atividade;
+const temLeituras = modulo.leituras && modulo.leituras.length > 0;
+---
+
+<div id={`modulo-${modulo.id}`} class="micro-modulo bg-slate-900/50 border border-white/5 rounded-2xl overflow-hidden mb-6 transition-all" data-modulo-id={modulo.id}>
+  <!-- Header com imagem (se houver) -->
+  <div class="relative">
+    {modulo.imagem && (
+      <div class="h-48 overflow-hidden">
+        <img src={modulo.imagem} alt={modulo.titulo} class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent"></div>
+      </div>
+    )}
+    <div class="absolute bottom-0 left-0 right-0 p-4">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="px-2 py-1 bg-cyan-500 text-white text-xs font-bold rounded">{modulo.id}</span>
+        <span class="px-2 py-1 bg-slate-800/80 backdrop-blur text-slate-300 text-xs rounded flex items-center gap-1">
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          {modulo.tempo} min
+        </span>
+      </div>
+      <h3 class="text-xl font-bold text-white">{modulo.titulo}</h3>
+    </div>
+  </div>
+  
+  <!-- Conteúdo -->
+  <div class="p-6">
+    <div class="prose prose-invert max-w-none text-slate-300 mb-6" set:html={modulo.conteudo}></div>
+    
+    <!-- Leituras recomendadas -->
+    {temLeituras && (
+      <div class="mb-6 p-4 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-xl border border-blue-500/20">
+        <div class="flex items-center gap-2 mb-3">
+          <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+          </svg>
+          <span class="text-white font-medium">Leituras Recomendadas</span>
+        </div>
+        <ul class="space-y-2">
+          {modulo.leituras.map((leitura) => (
+            <li>
+              <a href={leitura.link} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-slate-300 hover:text-cyan-400 transition-colors text-sm">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                </svg>
+                <span class="font-medium">{leitura.titulo}</span>
+                <span class="text-slate-500">por {leitura.autor}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+    
+    <!-- Quiz -->
+    {temQuiz && (
+      <div class="quiz-wrapper mb-6">
+        <slot name="quiz" />
+      </div>
+    )}
+    
+    <!-- Atividade -->
+    {temAtividade && (
+      <div class="atividade-wrapper">
+        <slot name="atividade" />
+      </div>
+    )}
+    
+    <!-- Botão de concluir -->
+    <div class="mt-6 pt-4 border-t border-white/5">
+      <button class="btn-concluir w-full py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold rounded-xl hover:from-green-400 hover:to-emerald-400 transition-all shadow-lg shadow-green-500/30 flex items-center justify-center gap-2" data-modulo={modulo.id}>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
+        Marcar como Concluído
+      </button>
+    </div>
+  </div>
+</div>

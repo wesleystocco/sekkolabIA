@@ -1,0 +1,118 @@
+---
+// src/components/curso/Pontuacao.astro
+interface Props {
+  pontos: number;
+  nivel: number;
+  conquistas: Array<{ id: string; nome: string; icone: string; desbloqueada?: boolean }>;
+}
+
+const { pontos, nivel, conquistas } = Astro.props;
+
+const pontosProximoNivel = nivel * 500;
+const progressoNivel = Math.min((pontos % pontosProximoNivel) / pontosProximoNivel * 100, 100);
+---
+
+<div class="pontuacao-container" id="pontuacao-component">
+  <div class="bg-slate-900/95 backdrop-blur-xl border border-white/10 rounded-2xl p-5 w-72 shadow-2xl">
+    <!-- Nível e Pontos -->
+    <div class="flex items-center gap-4 mb-4">
+      <div class="relative">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 via-orange-500 to-red-500 flex items-center justify-center shadow-lg shadow-orange-500/30">
+          <span class="text-white font-bold text-xl" id="nivel-valor">{nivel}</span>
+        </div>
+        <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-slate-900"></div>
+      </div>
+      
+      <div class="flex-1">
+        <div class="flex items-center justify-between mb-1">
+          <span class="text-white font-semibold">Nível <span id="nivel-texto">{nivel}</span></span>
+          <span class="text-amber-400 font-mono text-sm" id="pontos-valor">{pontos} pts</span>
+        </div>
+        <div class="h-2 bg-slate-800 rounded-full overflow-hidden">
+          <div id="progresso-nivel" class="h-full bg-gradient-to-r from-amber-400 to-orange-500 rounded-full transition-all duration-1000" style={`width: ${progressoNivel}%`}></div>
+        </div>
+        <p class="text-xs text-slate-500 mt-1" id="proximo-nivel">{Math.round(pontosProximoNivel - (pontos % pontosProximoNivel))} pts para o próximo nível</p>
+      </div>
+    </div>
+    
+    <!-- Conquistas -->
+    <div class="border-t border-white/5 pt-4">
+      <p class="text-xs text-slate-500 mb-2 uppercase tracking-wider">Conquistas</p>
+      <div class="flex flex-wrap gap-2" id="conquistas-container">
+        {conquistas.map((c) => (
+          <div class="group relative conquista-item" data-id={c.id} data-desbloqueada={c.desbloqueada ? 'true' : 'false'}>
+            <div class={`w-10 h-10 rounded-xl border flex items-center justify-center transition-all cursor-pointer ${c.desbloqueada ? 'bg-gradient-to-br from-amber-500/20 to-orange-500/20 border-amber-500/30' : 'bg-slate-800 border-white/5 opacity-50'}`} title={c.nome}>
+              <span class="text-lg">{c.icone}</span>
+            </div>
+            <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-slate-800 rounded text-xs text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition pointer-events-none">
+              {c.nome}
+            </div>
+          </div>
+        ))}
+        <!-- Slots vazios -->
+        {[...Array(Math.max(0, 6 - conquistas.length))].map(() => (
+          <div class="w-10 h-10 rounded-xl bg-slate-900/50 border border-white/5 flex items-center justify-center">
+            <svg class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+            </svg>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .pontuacao-container {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    z-index: 50;
+  }
+  
+  @media (max-width: 768px) {
+    .pontuacao-container {
+      position: relative;
+      top: 0;
+      right: 0;
+      margin-bottom: 1rem;
+    }
+  }
+</style>
+
+<script>
+  // Ouvir eventos de atualização de pontuação
+  document.addEventListener('atualizar-pontuacao', (e) => {
+    const { pontos, nivel, conquistas } = e.detail;
+    
+    // Atualizar valores
+    const nivelEl = document.getElementById('nivel-valor');
+    const nivelTexto = document.getElementById('nivel-texto');
+    const pontosEl = document.getElementById('pontos-valor');
+    const progressoEl = document.getElementById('progresso-nivel');
+    const proximoEl = document.getElementById('proximo-nivel');
+    
+    if (nivelEl) nivelEl.textContent = nivel;
+    if (nivelTexto) nivelTexto.textContent = nivel;
+    if (pontosEl) pontosEl.textContent = pontos + ' pts';
+    
+    const pontosProximo = nivel * 500;
+    const progresso = Math.min((pontos % pontosProximo) / pontosProximo * 100, 100);
+    if (progressoEl) progressoEl.style.width = progresso + '%';
+    if (proximoEl) proximoEl.textContent = Math.round(pontosProximo - (pontos % pontosProximo)) + ' pts para o próximo nível';
+    
+    // Atualizar conquistas (exemplo simples)
+    if (conquistas && conquistas.length > 0) {
+      document.querySelectorAll('.conquista-item').forEach(item => {
+        const id = item.dataset.id;
+        const conquista = conquistas.find(c => c.id === id);
+        if (conquista && conquista.desbloqueada) {
+          item.dataset.desbloqueada = 'true';
+          const div = item.querySelector('div:first-child');
+          div.classList.add('bg-gradient-to-br', 'from-amber-500/20', 'to-orange-500/20', 'border-amber-500/30');
+          div.classList.remove('bg-slate-800', 'border-white/5', 'opacity-50');
+        }
+      });
+    }
+  });
+</script>

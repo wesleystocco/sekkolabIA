@@ -1,0 +1,13 @@
+---
+// src/components/blog/ImagemComLegenda.astro
+interface Props {
+  src: string;
+  alt: string;
+  legenda?: string;
+}
+const { src, alt, legenda } = Astro.props;
+---
+<figure class="my-8">
+  <img src={src} alt={alt} class="rounded-xl border border-white/5" />
+  {legenda && <figcaption class="text-sm text-slate-500 mt-2 text-center">{legenda}</figcaption>}
+</figure>

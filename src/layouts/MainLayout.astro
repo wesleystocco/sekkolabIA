@@ -1,0 +1,95 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  noIndex?: boolean;
+  publishedTime?: string;
+  author?: string;
+}
+
+const {
+  title,
+  description = "SekkoLab IA: Domine SEO, tráfego pago, copywriting e produtividade 10x com Inteligência Artificial. Cursos práticos e metodologia comprovada.",
+  image = "/og-image.png",
+  type = 'website',
+  noIndex = false,
+  publishedTime,
+  author = 'SekkoLab'
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://sekkolab-ia.vercel.app');
+const fullTitle = `${title} | SekkoLab IA`;
+---
+
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- Preconnect para performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Fontes -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,900&display=swap" rel="stylesheet">
+
+    <!-- SEO Básico -->
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.url)} />
+    <meta property="og:site_name" content="SekkoLab IA" />
+    <meta property="og:locale" content="pt_BR" />
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {author && <meta property="article:author" content={author} />}
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={fullTitle} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={new URL(image, Astro.url)} />
+    <meta property="twitter:site" content="@sekkolab" />
+    <meta property="twitter:creator" content="@sekkolab" />
+    
+    <!-- Schema.org para Organization -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "SekkoLab IA",
+        "url": "https://sekkolab-ia.vercel.app",
+        "logo": "https://sekkolab-ia.vercel.app/favicon.svg",
+        "sameAs": [
+          "https://www.instagram.com/sekkolab",
+          "https://www.youtube.com/@sekkolab",
+          "https://twitter.com/sekkolab"
+        ]
+      }
+    </script>
+  </head>
+  <body class="bg-slate-950 text-slate-200 font-sans antialiased min-h-screen flex flex-col selection:bg-primary selection:text-white">
+    <Header />
+    <main class="flex-grow pt-24">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,22 @@
+{
+    "id": "produtividade-ia",
+    "titulo": "Produtividade 10x com IA",
+    "descricao": "Automatize tarefas, crie planilhas inteligentes e organize sua rotina com assistentes de IA.",
+    "cargaHoraria": 5,
+    "modulos": [{
+        "nome": "Módulo 1: IA como Assistente Pessoal",
+        "microModulos": [{
+            "id": "1.1",
+            "titulo": "Configurando seu assistente",
+            "tempo": 5,
+            "conteudo": "<p>Aprenda a usar o ChatGPT para organizar sua agenda, resumir e-mails e criar listas de tarefas.</p>",
+            "leituras": [
+                { "titulo": "Os 7 Hábitos das Pessoas Altamente Eficazes", "autor": "Stephen Covey", "link": "#" },
+                { "titulo": "A Arte de Fazer Acontecer", "autor": "David Allen", "link": "#" }
+            ],
+            "pergunta": "Qual dessas tarefas a IA pode ajudar?",
+            "opcoes": ["Resumir textos", "Dirigir carro", "Cozinhar"],
+            "respostaCorreta": 0
+        }]
+    }]
+}

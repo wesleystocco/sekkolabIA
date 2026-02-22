@@ -1,0 +1,602 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/curso/Breadcrumb.astro';
+import CourseNavigation from '../../components/curso/CourseNavigation.astro';
+import Pontuacao from '../../components/curso/Pontuacao.astro';
+import StreakCounter from '../../components/curso/StreakCounter.astro';
+import SeletorTempo from '../../components/curso/SeletorTempo.astro';
+import ProgressoBar from '../../components/curso/ProgressoBar.astro';
+import PausaAtiva from '../../components/curso/PausaAtiva.astro';
+
+export async function getStaticPaths() {
+  const slugs = ['seo-com-ia', 'copy-com-ia', 'produtividade-ia', 'trafego-pago-ia'];
+  return slugs.map(slug => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+
+let dadosCurso;
+try {
+  const modulo = await import(`../../data/cursos/${slug}.json`);
+  dadosCurso = modulo.default;
+} catch (error) {
+  console.error('Erro ao carregar JSON do curso:', error);
+  dadosCurso = {
+    id: slug,
+    titulo: "Curso em Desenvolvimento",
+    descricao: "Este curso ainda está sendo elaborado.",
+    cargaHoraria: 0,
+    modulos: []
+  };
+}
+
+// Contar total de perguntas no curso
+const totalPerguntas = dadosCurso.modulos?.reduce((acc, m) => 
+  acc + m.microModulos?.reduce((acc2, mm) => acc2 + (mm.pergunta ? 1 : 0), 0), 0) || 0;
+
+const totalModulos = dadosCurso.modulos?.reduce((acc, m) => acc + (m.microModulos?.length || 0), 0) || 0;
+
+// Dados iniciais de gamificação (serão sobrescritos pelo localStorage)
+const pontosUsuario = 150;
+const nivelUsuario = 2;
+const conquistasUsuario = [
+  { id: 'iniciado', nome: 'Primeiros Passos', icone: '🚀', desbloqueada: true },
+  { id: 'quiz1', nome: 'Mestre do Quiz', icone: '🧠', desbloqueada: false },
+  { id: 'streak3', nome: '3 Dias Seguidos', icone: '🔥', desbloqueada: true },
+];
+const streakDias = 5;
+const streakData = new Date().toISOString().split('T')[0];
+---
+
+<MainLayout title={`${dadosCurso.titulo} – Curso Grátis`}>
+  <!-- Pontuação fixa no canto superior direito -->
+  <Pontuacao pontos={pontosUsuario} nivel={nivelUsuario} conquistas={conquistasUsuario} client:load />
+
+  <div class="max-w-5xl mx-auto px-4 py-12">
+    <!-- Breadcrumb -->
+    <Breadcrumb items={[
+      { label: 'Cursos Gratuitos', href: '/cursos-gratuitos' },
+      { label: dadosCurso.titulo }
+    ]} />
+    
+    <!-- Navegação do curso -->
+    <CourseNavigation 
+      courseSlug={slug}
+      courseTitle={dadosCurso.titulo}
+      currentLesson="Visão Geral"
+    />
+
+    <!-- Header do Curso -->
+    <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-8 mb-8 border border-white/10">
+      <div class="flex flex-col lg:flex-row gap-8 items-start">
+        <div class="flex-1">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="px-3 py-1 bg-cyan-500/20 text-cyan-400 text-sm font-medium rounded-full">Curso Grátis</span>
+            <span class="px-3 py-1 bg-amber-500/20 text-amber-400 text-sm font-medium rounded-full flex items-center gap-1">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+              4.9
+            </span>
+          </div>
+          
+          <h1 class="text-3xl lg:text-4xl font-bold text-white mb-4">{dadosCurso.titulo}</h1>
+          <p class="text-slate-300 text-lg mb-6">{dadosCurso.descricao}</p>
+          
+          <div class="flex flex-wrap gap-4 text-sm text-slate-400">
+            <span class="flex items-center gap-1">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              {dadosCurso.cargaHoraria}h de conteúdo
+            </span>
+            <span class="flex items-center gap-1">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+              </svg>
+              {totalModulos} módulos
+            </span>
+            <span class="flex items-center gap-1">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+              </svg>
+              Certificado
+            </span>
+          </div>
+        </div>
+        
+        <!-- Streak Counter -->
+        <StreakCounter diasConsecutivos={streakDias} ultimaData={streakData} />
+      </div>
+    </div>
+
+    <!-- Seletor de Tempo - Nova versão com cards -->
+    <div class="bg-slate-800/50 rounded-2xl p-6 mb-8 border border-white/5">
+      <h2 class="text-white font-semibold mb-4 flex items-center gap-2">
+        <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        Quanto tempo você tem hoje?
+      </h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <button class="tempo-card group relative overflow-hidden rounded-xl p-4 transition-all duration-300 bg-slate-700 hover:bg-slate-600 data-[active=true]:bg-cyan-600" data-time="15">
+          <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <span class="block text-2xl font-bold text-white">15</span>
+          <span class="text-xs text-slate-300">min • rápido</span>
+          <span class="block text-xs text-cyan-400 mt-1">~5 perguntas</span>
+        </button>
+        <button class="tempo-card group relative overflow-hidden rounded-xl p-4 transition-all duration-300 bg-slate-700 hover:bg-slate-600" data-time="30">
+          <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <span class="block text-2xl font-bold text-white">30</span>
+          <span class="text-xs text-slate-300">min • médio</span>
+          <span class="block text-xs text-cyan-400 mt-1">~8 perguntas</span>
+        </button>
+        <button class="tempo-card group relative overflow-hidden rounded-xl p-4 transition-all duration-300 bg-slate-700 hover:bg-slate-600" data-time="45">
+          <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <span class="block text-2xl font-bold text-white">45</span>
+          <span class="text-xs text-slate-300">min • aprofundado</span>
+          <span class="block text-xs text-cyan-400 mt-1">~12 perguntas</span>
+        </button>
+        <button class="tempo-card group relative overflow-hidden rounded-xl p-4 transition-all duration-300 bg-slate-700 hover:bg-slate-600" data-time="60">
+          <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <span class="block text-2xl font-bold text-white">60</span>
+          <span class="text-xs text-slate-300">min • completo</span>
+          <span class="block text-xs text-cyan-400 mt-1">~16 perguntas</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Barra de Progresso -->
+    <div class="mb-8">
+      <ProgressoBar inicial={0} />
+    </div>
+
+    <!-- Container dos módulos -->
+    <div id="modulos-container" class="space-y-8"></div>
+  </div>
+
+  <!-- Pausa Ativa -->
+  <PausaAtiva />
+</MainLayout>
+
+<script define:vars={{ dadosCurso, totalPerguntas }}>
+  // Dados do curso
+  const todosMicroModulos = dadosCurso.modulos?.flatMap(m => m.microModulos) || [];
+  const STORAGE_KEY = `progresso-${dadosCurso.id}`;
+  
+  // Estado
+  let concluidos = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  let tempoSelecionado = 15;
+  let pontos = parseInt(localStorage.getItem('pontos') || '150');
+  let nivel = parseInt(localStorage.getItem('nivel') || '2');
+  let conquistas = JSON.parse(localStorage.getItem('conquistas') || '[]');
+
+  // Função para atualizar barra de progresso
+  function atualizarProgresso() {
+    const total = todosMicroModulos.length;
+    const progresso = total > 0 ? (concluidos.length / total) * 100 : 0;
+    const barra = document.getElementById('progresso-barra');
+    const texto = document.getElementById('progresso-texto');
+    if (barra) barra.style.width = `${progresso}%`;
+    if (texto) texto.textContent = `${Math.round(progresso)}%`;
+  }
+
+  // Função para adicionar pontos e atualizar nível
+  function adicionarPontos(valor) {
+    pontos += valor;
+    localStorage.setItem('pontos', pontos);
+    
+    // Atualizar nível (a cada 500 pontos)
+    const novoNivel = Math.floor(pontos / 500) + 1;
+    if (novoNivel > nivel) {
+      nivel = novoNivel;
+      localStorage.setItem('nivel', nivel);
+      // Poderia disparar uma notificação de up
+    }
+    
+    // Atualizar componente Pontuacao via evento customizado
+    document.dispatchEvent(new CustomEvent('atualizar-pontuacao', { 
+      detail: { pontos, nivel, conquistas } 
+    }));
+  }
+
+  // Embaralhar array
+  function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  // Selecionar módulos com base no tempo e garantir pelo menos 5 perguntas
+  function getModulosPorTempo(tempo) {
+    const naoConcluidos = todosMicroModulos.filter(m => !concluidos.includes(m.id));
+    
+    // Calcular número alvo de perguntas baseado no tempo (1 pergunta a cada 3 min)
+    const perguntasAlvo = Math.max(5, Math.floor(tempo / 3));
+    
+    let selecionados = [];
+    let somaTempo = 0;
+    let perguntasCount = 0;
+    
+    // Separar módulos com e sem pergunta
+    const comPerguntas = naoConcluidos.filter(m => m.pergunta);
+    const semPerguntas = naoConcluidos.filter(m => !m.pergunta);
+    
+    // Ordenar comPerguntas por tempo (menor primeiro para caber mais)
+    comPerguntas.sort((a, b) => a.tempo - b.tempo);
+    
+    for (let m of comPerguntas) {
+      if (perguntasCount < perguntasAlvo) {
+        // Se estourar o tempo, ainda adiciona? Vamos tentar respeitar o tempo
+        if (somaTempo + m.tempo <= tempo) {
+          selecionados.push(m);
+          somaTempo += m.tempo;
+          perguntasCount++;
+        } else {
+          // Se não couber, mas ainda faltam perguntas, adiciona mesmo assim?
+          // Por enquanto, não adiciona se estourar o tempo.
+        }
+      }
+    }
+    
+    // Se não atingiu o mínimo de perguntas, adicionar mais (mesmo que ultrapasse um pouco o tempo)
+    if (perguntasCount < perguntasAlvo) {
+      for (let m of comPerguntas) {
+        if (!selecionados.includes(m) && perguntasCount < perguntasAlvo) {
+          selecionados.push(m);
+          somaTempo += m.tempo;
+          perguntasCount++;
+        }
+      }
+    }
+    
+    // Se ainda não atingiu o mínimo, incluir módulos sem perguntas (conteúdo extra)
+    if (perguntasCount < perguntasAlvo) {
+      for (let m of semPerguntas) {
+        if (!selecionados.includes(m) && perguntasCount < perguntasAlvo) {
+          selecionados.push(m);
+          somaTempo += m.tempo;
+          perguntasCount++;
+        }
+      }
+    }
+    
+    // Se ainda assim não houver módulos, pegar o primeiro disponível
+    if (selecionados.length === 0 && naoConcluidos.length > 0) {
+      selecionados = [naoConcluidos[0]];
+    }
+    
+    return selecionados;
+  }
+
+  // Renderizar módulos
+  function renderizarModulos(modulosSelecionados) {
+    const container = document.getElementById('modulos-container');
+    container.innerHTML = '';
+    
+    dadosCurso.modulos.forEach((modulo, modIndex) => {
+      const microsFiltrados = modulo.microModulos.filter(m => modulosSelecionados.includes(m));
+      if (microsFiltrados.length === 0) return;
+      
+      let moduloHTML = `
+        <section class="modulo-section">
+          <h2 class="text-2xl font-bold text-white mb-4">${modulo.nome}</h2>
+          <div class="space-y-6">
+      `;
+      
+      microsFiltrados.forEach(micro => {
+        // Embaralhar opções
+        let opcoesHTML = '';
+        if (micro.pergunta && micro.opcoes) {
+          const opcoesEmbaralhadas = shuffleArray([...micro.opcoes]);
+          opcoesHTML = `
+            <div class="quiz-container mt-4 p-4 bg-slate-800/50 rounded-xl" data-modulo-id="${micro.id}">
+              <p class="text-white font-medium mb-3">${micro.pergunta}</p>
+              <div class="space-y-2">
+                ${opcoesEmbaralhadas.map((opt, idx) => `
+                  <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-700/50 cursor-pointer">
+                    <input type="radio" name="pergunta-${micro.id}" value="${opt}" class="text-primary">
+                    <span class="text-slate-300">${opt}</span>
+                  </label>
+                `).join('')}
+              </div>
+              <button class="btn-responder mt-3 px-4 py-2 bg-cyan-500 text-white rounded-lg text-sm" data-modulo="${micro.id}">
+                Verificar resposta
+              </button>
+              <div class="feedback mt-2 text-sm hidden"></div>
+            </div>
+          `;
+        }
+        
+        // Atividade
+        let atividadeHTML = '';
+        if (micro.atividade) {
+          const exemplo = micro.exemploAtividade || "Exemplo: 'Aqui vai um exemplo de resposta...' (substitua pelo seu conteúdo)";
+          atividadeHTML = `
+            <div class="atividade-wrapper">
+              <div class="atividade-container bg-slate-800/50 rounded-2xl p-6 border border-white/5" data-atividade-id="${micro.id}" data-pontos="50">
+                <div class="flex items-center justify-between mb-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg">
+                      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 class="text-white font-bold">Atividade Prática</h4>
+                      <p class="text-xs text-slate-400 capitalize">Responda</p>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <div class="text-xl font-bold text-amber-400">+50</div>
+                    <div class="text-xs text-slate-400">pontos</div>
+                  </div>
+                </div>
+                <p class="text-slate-300 mb-4">${micro.atividade}</p>
+                <div class="mb-4 p-4 bg-slate-900/50 rounded-xl border-l-4 border-cyan-500">
+                  <p class="text-xs text-cyan-400 font-medium mb-1">EXEMPLO</p>
+                  <p class="text-sm text-slate-300">${exemplo}</p>
+                </div>
+                <textarea id="atividade-input-${micro.id}" class="w-full p-4 bg-slate-900 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all resize-none" rows="6" placeholder="Digite sua resposta aqui..."></textarea>
+                <div class="flex items-center justify-between mt-3">
+                  <span id="atividade-contador-${micro.id}" class="text-xs text-slate-500">0 caracteres (mínimo 50)</span>
+                  <button id="atividade-submit-${micro.id}" class="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold rounded-xl hover:from-cyan-400 hover:to-blue-400 transition-all shadow-lg shadow-cyan-500/30 disabled:opacity-50 disabled:cursor-not-allowed" disabled>Enviar Atividade</button>
+                </div>
+                <div id="atividade-feedback-${micro.id}" class="hidden mt-4 p-4 bg-green-500/20 border border-green-500/50 rounded-xl">
+                  <div class="flex items-center gap-2">
+                    <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <p class="text-green-400 font-medium">Atividade enviada com sucesso!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+        
+        // Leituras
+        let leiturasHTML = '';
+        if (micro.leituras && micro.leituras.length > 0) {
+          leiturasHTML = `
+            <div class="mb-6 p-4 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-xl border border-blue-500/20">
+              <div class="flex items-center gap-2 mb-3">
+                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                </svg>
+                <span class="text-white font-medium">Leituras Recomendadas</span>
+              </div>
+              <ul class="space-y-2">
+                ${micro.leituras.map(l => `
+                  <li>
+                    <a href="${l.link}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-slate-300 hover:text-cyan-400 transition-colors text-sm">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                      </svg>
+                      <span class="font-medium">${l.titulo}</span>
+                      <span class="text-slate-500">por ${l.autor}</span>
+                    </a>
+                  </li>
+                `).join('')}
+              </ul>
+            </div>
+          `;
+        }
+        
+        moduloHTML += `
+          <div id="modulo-${micro.id}" class="micro-modulo bg-slate-900/50 border border-white/5 rounded-2xl overflow-hidden mb-6 transition-all" data-modulo-id="${micro.id}">
+            <div class="relative">
+              ${micro.imagem ? `
+                <div class="h-48 overflow-hidden">
+                  <img src="${micro.imagem}" alt="${micro.titulo}" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent"></div>
+                </div>
+              ` : ''}
+              <div class="absolute bottom-0 left-0 right-0 p-4">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="px-2 py-1 bg-cyan-500 text-white text-xs font-bold rounded">${micro.id}</span>
+                  <span class="px-2 py-1 bg-slate-800/80 backdrop-blur text-slate-300 text-xs rounded flex items-center gap-1">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    ${micro.tempo} min
+                  </span>
+                </div>
+                <h3 class="text-xl font-bold text-white">${micro.titulo}</h3>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="prose prose-invert max-w-none text-slate-300 mb-6">${micro.conteudo}</div>
+              ${leiturasHTML}
+              ${opcoesHTML}
+              ${atividadeHTML}
+              <div class="mt-6 pt-4 border-t border-white/5">
+                <button class="btn-concluir w-full py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold rounded-xl hover:from-green-400 hover:to-emerald-400 transition-all shadow-lg shadow-green-500/30 flex items-center justify-center gap-2" data-modulo="${micro.id}">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                  Marcar como Concluído
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      
+      moduloHTML += '</div></section>';
+      container.innerHTML += moduloHTML;
+    });
+    
+    // Reinicializar listeners
+    inicializarListenersAtividades();
+    inicializarListenersQuiz();
+    inicializarListenersConcluir();
+  }
+
+  // Listeners para atividades
+  function inicializarListenersAtividades() {
+    document.querySelectorAll('[id^="atividade-input-"]').forEach(textarea => {
+      const id = textarea.id.replace('atividade-input-', '');
+      const submit = document.getElementById('atividade-submit-' + id);
+      const contador = document.getElementById('atividade-contador-' + id);
+      const feedback = document.getElementById('atividade-feedback-' + id);
+      
+      if (!textarea || !submit) return;
+      
+      textarea.removeEventListener('input', handleAtividadeInput);
+      submit.removeEventListener('click', handleAtividadeSubmit);
+      
+      function handleAtividadeInput() {
+        const length = textarea.value.length;
+        if (contador) {
+          contador.textContent = length + ' caracteres (mínimo 50)';
+          contador.className = length >= 50 ? 'text-xs text-green-400' : 'text-xs text-slate-500';
+        }
+        submit.disabled = length < 50;
+      }
+      
+      function handleAtividadeSubmit() {
+        if (textarea.value.length >= 50) {
+          // Validação simples: verificar se contém algumas palavras-chave
+          const resposta = textarea.value.toLowerCase();
+          const modulo = todosMicroModulos.find(m => m.id === id);
+          // Exemplo de validação: se a atividade for sobre SEO, verificar se contém "SEO" ou "otimização"
+          let valido = true;
+          let mensagemErro = '';
+          if (modulo && modulo.titulo.toLowerCase().includes('seo')) {
+            if (!resposta.includes('seo') && !resposta.includes('otimização')) {
+              valido = false;
+              mensagemErro = 'Sua resposta deve mencionar SEO ou otimização. Exemplo: "O SEO é importante porque..."';
+            }
+          }
+          
+          if (!valido) {
+            alert(mensagemErro);
+            return;
+          }
+          
+          submit.textContent = 'Enviado!';
+          submit.classList.remove('bg-gradient-to-r', 'from-cyan-500', 'to-blue-500');
+          submit.classList.add('bg-green-500');
+          submit.disabled = true;
+          textarea.disabled = true;
+          
+          if (feedback) feedback.classList.remove('hidden');
+          
+          adicionarPontos(50);
+          document.dispatchEvent(new CustomEvent('atividade-concluida', { detail: { id: id } }));
+        }
+      }
+      
+      textarea.addEventListener('input', handleAtividadeInput);
+      submit.addEventListener('click', handleAtividadeSubmit);
+    });
+  }
+
+  function inicializarListenersQuiz() {
+    document.querySelectorAll('.btn-responder').forEach(btn => {
+      btn.removeEventListener('click', handleQuizClick);
+      btn.addEventListener('click', handleQuizClick);
+    });
+  }
+
+  function handleQuizClick(e) {
+    e.stopPropagation();
+    const id = e.target.dataset.modulo;
+    const modulo = todosMicroModulos.find(m => m.id === id);
+    if (!modulo) return;
+    
+    const container = e.target.closest('.quiz-container');
+    const selected = container?.querySelector('input[type="radio"]:checked');
+    const feedback = container?.querySelector('.feedback');
+    
+    if (!selected) {
+      if (feedback) {
+        feedback.textContent = 'Selecione uma opção.';
+        feedback.className = 'feedback mt-2 text-sm text-warning';
+        feedback.classList.remove('hidden');
+      }
+      return;
+    }
+    
+    const opcaoSelecionada = selected.value;
+    const opcaoCorreta = modulo.opcoes[modulo.respostaCorreta];
+    
+    if (opcaoSelecionada === opcaoCorreta) {
+      if (feedback) {
+        feedback.textContent = 'Resposta correta! ' + (modulo.explicacao || 'Agora marque como concluído.');
+        feedback.className = 'feedback mt-2 text-sm text-success';
+        feedback.classList.remove('hidden');
+      }
+      adicionarPontos(10);
+      document.dispatchEvent(new CustomEvent('quiz-acertado', { detail: { id, pontos: 10 } }));
+    } else {
+      if (feedback) {
+        feedback.textContent = 'Resposta incorreta. ' + (modulo.explicacao || 'Releia o conteúdo e tente novamente.');
+        feedback.className = 'feedback mt-2 text-sm text-error';
+        feedback.classList.remove('hidden');
+      }
+    }
+  }
+
+  function inicializarListenersConcluir() {
+    document.querySelectorAll('.btn-concluir').forEach(btn => {
+      btn.removeEventListener('click', handleConcluir);
+      btn.addEventListener('click', handleConcluir);
+    });
+  }
+
+  function handleConcluir(e) {
+    const btn = e.currentTarget;
+    const id = btn.dataset.modulo;
+    if (!id || concluidos.includes(id)) return;
+    
+    concluidos.push(id);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(concluidos));
+    atualizarProgresso();
+    
+    btn.disabled = true;
+    btn.textContent = 'Concluído ✓';
+    
+    adicionarPontos(5); // Pontos por concluir um módulo
+    document.dispatchEvent(new CustomEvent('modulo-concluido', { detail: { id } }));
+  }
+
+  // Escutar eventos de atividades
+  document.addEventListener('atividade-concluida', (e) => {
+    const { id } = e.detail;
+    if (!concluidos.includes(id)) {
+      concluidos.push(id);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(concluidos));
+      atualizarProgresso();
+    }
+  });
+
+  // Seletor de tempo - novo estilo
+  document.querySelectorAll('.tempo-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      const time = parseInt(card.dataset.time);
+      document.querySelectorAll('.tempo-card').forEach(c => {
+        c.classList.remove('bg-cyan-600');
+        c.classList.add('bg-slate-700');
+      });
+      card.classList.remove('bg-slate-700');
+      card.classList.add('bg-cyan-600');
+      
+      tempoSelecionado = time;
+      const modulosSelecionados = getModulosPorTempo(time);
+      renderizarModulos(modulosSelecionados);
+    });
+  });
+
+  // Inicialização
+  window.addEventListener('load', () => {
+    atualizarProgresso();
+    const modulosIniciais = getModulosPorTempo(15);
+    renderizarModulos(modulosIniciais);
+    // Marcar o card de 15 como ativo inicialmente
+    document.querySelector('[data-time="15"]')?.classList.add('bg-cyan-600');
+  });
+</script>

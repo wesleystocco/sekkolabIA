@@ -1,0 +1,15 @@
+---
+interface Props {
+  inicial?: number;
+}
+const { inicial = 0 } = Astro.props;
+---
+<div id="progresso-container" class="mb-6 p-4 bg-slate-900/30 rounded-xl border border-white/5">
+  <div class="flex justify-between text-sm text-slate-400 mb-2">
+    <span>Progresso</span>
+    <span id="progresso-texto">0%</span>
+  </div>
+  <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden">
+    <div id="progresso-barra" class="h-full bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full transition-all" style="width: 0%"></div>
+  </div>
+</div>

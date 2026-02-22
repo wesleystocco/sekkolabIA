@@ -1,0 +1,350 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { BookOpen, Clock, Award, Download, ChevronRight, Star, FileText, TrendingUp, Target, Zap, Users, Calendar, DollarSign, Video, Hash, BarChart } from 'lucide-astro';
+
+const caseData = {
+  titulo: "YouTube Shorts: Primeiros $500",
+  subtitulo: "Do zero à primeira receita com vídeos curtos em 60 dias",
+  descricao: "Método testado para monetizar Shorts sem precisar aparecer ou ter experiência",
+  imagem: "https://images.unsplash.com/photo-1611162616475-46b635cb6868?auto=format&fit=crop&q=80&w=800",
+  tempoLeitura: 30,
+  nivel: "Iniciante",
+  topicos: [
+    "Anatomia do Short",
+    "Configuração Técnica",
+    "Escolha de Nicho",
+    "Pesquisa de Tendências",
+    "Roteirização em Massa",
+    "Edição Expressa",
+    "Estratégia de Hashtags",
+    "Algoritmo",
+    "Monetização",
+    "Escala"
+  ]
+};
+---
+
+<MainLayout title={`${caseData.titulo} – Case SekkoLab`}>
+  <!-- Hero -->
+  <div class="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-b border-white/5">
+    <div class="max-w-7xl mx-auto px-4 py-16 md:py-24">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="inline-block px-3 py-1 bg-cyan-500/20 text-cyan-400 text-sm font-medium rounded-full mb-4">Caso de Estudo</span>
+          <h1 class="text-4xl md:text-5xl font-heading font-black text-white leading-tight mb-4">
+            {caseData.titulo}
+          </h1>
+          <p class="text-xl text-slate-300 mb-6">{caseData.subtitulo}</p>
+          <p class="text-slate-400 text-lg mb-8">{caseData.descricao}</p>
+          
+          <div class="flex flex-wrap gap-4 text-sm text-slate-400 mb-8">
+            <span class="flex items-center gap-1">
+              <Clock class="w-4 h-4" /> {caseData.tempoLeitura} min de leitura
+            </span>
+            <span class="flex items-center gap-1">
+              <Award class="w-4 h-4" /> {caseData.nivel}
+            </span>
+          </div>
+          
+          <div class="flex flex-wrap gap-3">
+            <a href="#conteudo" class="px-6 py-3 bg-cyan-500 text-white font-semibold rounded-xl hover:bg-cyan-600 transition flex items-center gap-2">
+              Começar a ler <ChevronRight class="w-4 h-4" />
+            </a>
+            <a href="/cursos" class="px-6 py-3 border border-white/10 text-white font-semibold rounded-xl hover:bg-white/5 transition">
+              Conhecer a Trilha IA
+            </a>
+          </div>
+        </div>
+        <div class="relative">
+          <img src={caseData.imagem} alt={caseData.titulo} class="rounded-2xl shadow-2xl border border-white/10" />
+          <div class="absolute -bottom-4 -right-4 bg-cyan-500 text-white p-3 rounded-xl shadow-lg">
+            <Video class="w-6 h-6" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Índice rápido -->
+  <div id="conteudo" class="max-w-4xl mx-auto px-4 py-16">
+    <div class="bg-slate-800/50 rounded-2xl p-6 mb-12 border border-white/5">
+      <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+        <FileText class="w-5 h-5 text-cyan-400" /> Neste guia você vai aprender
+      </h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+        {caseData.topicos.map(t => (
+          <span class="text-slate-300 text-sm flex items-center gap-1">
+            <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full"></span> {t}
+          </span>
+        ))}
+      </div>
+    </div>
+
+    <!-- Introdução -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Introdução: Por que YouTube Shorts é a maior oportunidade para criadores em 2025</h2>
+      <div class="prose prose-invert prose-lg max-w-none">
+        <p>O YouTube Shorts se tornou uma das maiores oportunidades para criadores que desejam crescer rapidamente e gerar receita. Diferente do Instagram, onde o alcance orgânico diminuiu, o YouTube ainda está distribuindo milhões de visualizações para canais novos com conteúdo de qualidade. O formato vertical curto, aliado ao poderoso algoritmo do YouTube, permite que qualquer pessoa, sem experiência prévia, alcance um público massivo em pouco tempo.</p>
+        <p>A monetização do Shorts, através do Fundo de Criadores do YouTube e posteriormente do Programa de Parcerias, oferece uma fonte de renda real para quem consegue gerar volume de visualizações. Neste guia, você aprenderá um sistema testado que já ajudou dezenas de criadores a alcançarem os primeiros $500 em receita em até 60 dias.</p>
+      </div>
+    </section>
+
+    <!-- Capítulo 1: Anatomia de um Short de Alto Desempenho -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Capítulo 1: Anatomia de um Short de Alto Desempenho</h2>
+      <div class="prose prose-invert prose-lg max-w-none">
+        <h3>1.1 Estudo de caso: 10 vídeos com 1M+ visualizações</h3>
+        <p>Analisamos dezenas de vídeos que ultrapassaram 1 milhão de visualizações no YouTube Shorts e identificamos padrões recorrentes. A maioria compartilha os seguintes elementos:</p>
+        <ul>
+          <li><strong>Hook nos primeiros 3 segundos:</strong> Uma frase ou cena que prende a atenção imediatamente.</li>
+          <li><strong>Ritmo acelerado:</strong> Cortes rápidos, sem momentos de tédio.</li>
+          <li><strong>Valor entregue:</strong> O vídeo ensina algo, diverte ou emociona.</li>
+          <li><strong>Chamada para ação:</strong> Incentivo a comentar, curtir ou compartilhar.</li>
+          <li><strong>Trilha sonora em alta:</strong> Uso de sons que estão trending.</li>
+        </ul>
+        <p>Além disso, vídeos que performam bem costumam ter títulos otimizados com palavras-chave de busca, descrições que complementam o conteúdo e hashtags relevantes.</p>
+      </div>
+    </section>
+
+    <!-- Capítulo 2: Configuração Técnica Profissional -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Capítulo 2: Configuração Técnica Profissional</h2>
+      <div class="prose prose-invert prose-lg max-w-none">
+        <h3>2.1 Checklist Técnico Completo</h3>
+        <ul>
+          <li><strong>Configurações de câmera:</strong> Grave em 1080p, 60fps (para vídeos mais suaves).</li>
+          <li><strong>Iluminação:</strong> Luz natural de frente ou anel de luz (R$ 50-100).</li>
+          <li><strong>Áudio:</strong> Microfone de lapela simples (R$ 30-50) ou grave em local silencioso.</li>
+          <li><strong>Aplicativos de edição:</strong> CapCut (gratuito), InShot, DaVinci Resolve.</li>
+          <li><strong>Armazenamento:</strong> Mantenha uma estrutura de pastas organizada: Raw, Editado, Publicado.</li>
+        </ul>
+        <p>Uma boa configuração técnica não exige equipamentos caros. O celular atual já é capaz de gravar em qualidade suficiente para viralizar. O segredo está na iluminação e no áudio claros.</p>
+      </div>
+    </section>
+
+    <!-- Capítulo 3: Nicho e Posicionamento -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Capítulo 3: Nicho e Posicionamento</h2>
+      <div class="prose prose-invert prose-lg max-w-none">
+        <h3>3.1 Como escolher seu nicho baseado em interesse + demanda</h3>
+        <p>Para escolher um nicho lucrativo, você precisa equilibrar seu interesse pessoal com a demanda de mercado. Nichos muito amplos (ex: "humor") são concorridos; nichos muito específicos (ex: "como consertar relógios antigos") podem ter público pequeno mas engajado.</p>
+        <p><strong>Matriz de Seleção de Nicho:</strong></p>
+        <ul>
+          <li><strong>Alta demanda / Alta concorrência:</strong> Exige diferenciação forte.</li>
+          <li><strong>Alta demanda / Baixa concorrência:</strong> Oportunidade de ouro (ex: nichos emergentes).</li>
+          <li><strong>Baixa demanda / Alta concorrência:</strong> Evite.</li>
+          <li><strong>Baixa demanda / Baixa concorrência:</strong> Pode ser viável se for um público muito específico.</li>
+        </ul>
+        <p>Use ferramentas como Google Trends, Keyword Planner e análise de canais concorrentes para validar a demanda.</p>
+      </div>
+    </section>
+
+    <!-- Capítulo 4: Pesquisa de Tendências Diária -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Capítulo 4: Pesquisa de Tendências Diária</h2>
+      <div class="prose prose-invert prose-lg max-w-none">
+        <h3>4.1 Sistema de 15 minutos para encontrar tendências</h3>
+        <ol>
+          <li>Acesse a aba "Shorts" no YouTube e role o feed por 5 minutos, anotando temas e formatos recorrentes.</li>
+          <li>Verifique a aba "Em alta" para identificar vídeos com crescimento rápido.</li>
+          <li>Use o site TrendHunter ou ferramentas como Exploding Topics para tendências mais amplas.</li>
+          <li>No celular, use o atalho de criação de Shorts para ver os sons trending.</li>
+        </ol>
+        <p><strong>Template: Daily Trend Scanner</strong></p>
+        <pre class="bg-slate-900 p-4 rounded-xl text-sm text-slate-300 overflow-x-auto"><code>Data: __/__/____
+Tendência 1:
+- Descrição:
+- Nicho aplicável:
+- Como adaptar:
+- Prioridade:
+
+Tendência 2:
+...</code></pre>
+      </div>
+    </section>
+
+    <!-- Capítulo 5: Roteirização em Massa -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Capítulo 5: Roteirização em Massa</h2>
+      <div class="prose prose-invert prose-lg max-w-none">
+        <h3>5.1 Sistema de produção de 50 roteiros em 3 horas</h3>
+        <p>Com a ajuda da IA, você pode gerar dezenas de roteiros rapidamente. Use o seguinte prompt no ChatGPT:</p>
+        <pre class="bg-slate-900 p-4 rounded-xl text-sm text-slate-300 overflow-x-auto"><code>Você é um roteirista especializado em YouTube Shorts. Seu nicho é [seu nicho]. Crie 50 ideias de roteiros para Shorts, cada um com:
+- Título
+- Hook (primeiros 3 segundos)
+- Desenvolvimento (4-5 linhas)
+- CTA no final
+
+Os roteiros devem ser curtos (até 60 segundos), práticos e ter alto potencial de engajamento. Organize em uma lista numerada.</code></pre>
+        <p>Depois de gerar, edite os roteiros para adicionar sua personalidade e exemplos reais. Varie os formatos: listas, dicas rápidas, curiosidades, bastidores, etc.</p>
+      </div>
+    </section>
+
+    <!-- Capítulo 6: Edição Expressa -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Capítulo 6: Edição Expressa</h2>
+      <div class="prose prose-invert prose-lg max-w-none">
+        <h3>6.1 Sistema de edição em 10 minutos por vídeo</h3>
+        <ol>
+          <li><strong>CapCut:</strong> Use a função de legendas automáticas (ótima precisão).</li>
+          <li><strong>Templates:</strong> Crie um template no CapCut com suas configurações padrão (transições, cores, fontes).</li>
+          <li><strong>Efeitos:</strong> Adicione zoom suave, textos animados e transições rápidas.</li>
+          <li><strong>Trilha sonora:</strong> Escolha um som trending da biblioteca do CapCut ou baixe de sites como Pixabay.</li>
+        </ol>
+        <p>Mantenha uma pasta com templates prontos para cada formato. Assim, você só precisa importar o vídeo, ajustar as legendas e exportar.</p>
+      </div>
+    </section>
+
+    <!-- Capítulo 7: Estratégia de Hashtags -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Capítulo 7: Estratégia de Hashtags</h2>
+      <div class="prose prose-invert prose-lg max-w-none">
+        <h3>7.1 Sistema de 3 camadas de hashtags</h3>
+        <ul>
+          <li><strong>Camada 1 (autoridade):</strong> Hashtags do seu nicho com milhões de posts (ex: #marketingdigital).</li>
+          <li><strong>Camada 2 (específicas):</strong> Hashtags de médio porte, relacionadas ao tema do vídeo.</li>
+          <li><strong>Camada 3 (micro-nicho):</strong> Hashtags muito específicas (ex: #dicasdesigmasocial).</li>
+        </ul>
+        <p><strong>Exemplo para um Short sobre dicas de produtividade:</strong> #produtividade #dicasdetrabalho #organizacao #shorts #youtubeshorts #trabalhoremo #crescimentopessoal</p>
+        <p>Use de 5 a 10 hashtags por vídeo. Evite repetir as mesmas sempre; varie para alcançar diferentes audiências.</p>
+      </div>
+    </section>
+
+    <!-- Capítulo 8: Algoritmo e Otimização -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Capítulo 8: Algoritmo e Otimização</h2>
+      <div class="prose prose-invert prose-lg max-w-none">
+        <h3>8.1 Como o algoritmo do Shorts funciona</h3>
+        <p>O algoritmo do YouTube Shorts prioriza vídeos com alta retenção de público, taxa de cliques para ver mais (swipe up) e engajamento (curtidas, comentários, compartilhamentos). Nos primeiros minutos após o upload, o YouTube testa seu vídeo com um pequeno grupo de usuários. Se o desempenho for bom, ele expande para grupos maiores.</p>
+        <p><strong>Fatores que influenciam:</strong></p>
+        <ul>
+          <li>Taxa de conclusão do vídeo</li>
+          <li>Quantas pessoas curtirem</li>
+          <li>Comentários e respostas</li>
+          <li>Compartilhamentos</li>
+          <li>Cliques no perfil após o vídeo</li>
+        </ul>
+        <p>Para otimizar, estude seus próprios vídeos no YouTube Studio. Veja onde os usuários param de assistir e ajuste seus roteiros.</p>
+      </div>
+    </section>
+
+    <!-- Capítulo 9: Monetização Diversificada -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Capítulo 9: Monetização Diversificada</h2>
+      <div class="prose prose-invert prose-lg max-w-none">
+        <h3>9.1 Adsense: quanto você pode ganhar</h3>
+        <p>Com o Shorts, a monetização inicial vem do Fundo de Criadores do YouTube (para países elegíveis). Após atingir 1.000 inscritos e 10 milhões de visualizações nos últimos 90 dias, você pode entrar no Programa de Parcerias e ganhar uma parte da receita de anúncios. O valor por visualização varia, mas estima-se entre $0,01 e $0,03 por visualização no Shorts.</p>
+        <p><strong>Outras formas de monetização:</strong></p>
+        <ul>
+          <li><strong>Patreon / Apoia-se:</strong> Ofereça conteúdo exclusivo para apoiadores.</li>
+          <li><strong>Produtos digitais:</strong> E-books, cursos, templates.</li>
+          <li><strong>Marketing de afiliados:</strong> Indique produtos e ganhe comissão.</li>
+          <li><strong>Patrocínios:</strong> Marcas pagam para você mencionar seus produtos.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Capítulo 10: Escala -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Capítulo 10: Escala</h2>
+      <div class="prose prose-invert prose-lg max-w-none">
+        <h3>10.1 De 1 vídeo/dia para 5 vídeos/dia</h3>
+        <p>Para escalar, você precisa sistematizar a produção. Crie um calendário editorial mensal, com temas e roteiros prontos. Terceirize tarefas repetitivas (como edição) para freelancers. Use ferramentas de agendamento como o Buffer ou o próprio YouTube Studio para programar os vídeos.</p>
+        <p>Considere criar múltiplos canais em nichos diferentes para multiplicar a receita. Cada canal pode ser gerido com o mesmo sistema de produção.</p>
+      </div>
+    </section>
+
+    <!-- Seção de ferramentas -->
+    <section class="mb-12 bg-slate-800/30 rounded-2xl p-8 border border-white/5">
+      <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+        <Star class="w-5 h-5 text-amber-400" /> Ferramentas recomendadas
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+            <Video class="w-5 h-5" />
+          </div>
+          <div>
+            <h3 class="text-white font-semibold">CapCut</h3>
+            <p class="text-sm text-slate-400">Edição gratuita, legendas automáticas, templates</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+            <Hash class="w-5 h-5" />
+          </div>
+          <div>
+            <h3 class="text-white font-semibold">RiteTag</h3>
+            <p class="text-sm text-slate-400">Análise e sugestão de hashtags</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+            <BarChart class="w-5 h-5" />
+          </div>
+          <div>
+            <h3 class="text-white font-semibold">YouTube Studio</h3>
+            <p class="text-sm text-slate-400">Análise de desempenho, insights</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+            <DollarSign class="w-5 h-5" />
+          </div>
+          <div>
+            <h3 class="text-white font-semibold">Social Blade</h3>
+            <p class="text-sm text-slate-400">Estimativa de ganhos e estatísticas de canais</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Templates para download -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+        <Download class="w-5 h-5 text-cyan-400" /> Templates e recursos baixáveis
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="bg-slate-800/50 rounded-xl p-4 border border-white/5 hover:border-cyan-500/30 transition">
+          <h3 class="text-white font-semibold mb-2 flex items-center gap-2">
+            <FileText class="w-4 h-4 text-cyan-400" /> Daily Trend Scanner
+          </h3>
+          <p class="text-sm text-slate-400 mb-3">Planilha para monitorar tendências diárias</p>
+          <a href="/downloads/daily-trend-scanner.xlsx" download class="text-cyan-400 text-sm hover:underline flex items-center gap-1">
+            Baixar <Download class="w-3 h-3" />
+          </a>
+        </div>
+        <div class="bg-slate-800/50 rounded-xl p-4 border border-white/5 hover:border-cyan-500/30 transition">
+          <h3 class="text-white font-semibold mb-2 flex items-center gap-2">
+            <FileText class="w-4 h-4 text-cyan-400" /> 50 Roteiros para Shorts
+          </h3>
+          <p class="text-sm text-slate-400 mb-3">Prompts prontos para gerar roteiros</p>
+          <a href="/downloads/50-shorts-scripts.txt" download class="text-cyan-400 text-sm hover:underline flex items-center gap-1">
+            Baixar <Download class="w-3 h-3" />
+          </a>
+        </div>
+        <div class="bg-slate-800/50 rounded-xl p-4 border border-white/5 hover:border-cyan-500/30 transition">
+          <h3 class="text-white font-semibold mb-2 flex items-center gap-2">
+            <FileText class="w-4 h-4 text-cyan-400" /> Hashtag Strategy Card
+          </h3>
+          <p class="text-sm text-slate-400 mb-3">Template para planejar hashtags por camada</p>
+          <a href="/downloads/hashtag-strategy-card.xlsx" download class="text-cyan-400 text-sm hover:underline flex items-center gap-1">
+            Baixar <Download class="w-3 h-3" />
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call-to-action para a Trilha IA -->
+    <div class="bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-3xl p-8 text-center border border-cyan-500/30">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Este é apenas o começo</h2>
+      <p class="text-slate-300 text-lg mb-6 max-w-2xl mx-auto">
+        Na Trilha IA completa, você vai além: sistemas avançados de produção em escala, estratégias de monetização, comunidade exclusiva e mentorias.
+      </p>
+      <a href="/cursos" class="inline-block px-8 py-4 bg-cyan-500 text-white font-bold rounded-xl text-lg hover:bg-cyan-600 transition shadow-lg shadow-cyan-500/30">
+        Quero acelerar meus resultados
+      </a>
+      <p class="text-sm text-slate-500 mt-4">Acesso imediato por R$ 297</p>
+    </div>
+  </div>
+</MainLayout>

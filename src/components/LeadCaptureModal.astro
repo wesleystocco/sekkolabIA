@@ -1,0 +1,138 @@
+---
+// src/components/LeadCaptureModal.astro
+interface Props {
+  courseSlug?: string;
+  showDelay?: number; // milissegundos antes de mostrar
+}
+
+const { 
+  courseSlug = '',
+  showDelay = 30000 // 30 segundos como padrão
+} = Astro.props;
+---
+
+<div id="lead-capture-modal" class="fixed inset-0 z-50 hidden">
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" id="modal-overlay"></div>
+  
+  <!-- Modal -->
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md p-6">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl p-8 shadow-2xl relative">
+      <!-- Botão fechar -->
+      <button id="modal-close" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      
+      <!-- Conteúdo -->
+      <div class="text-center">
+        <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+        </div>
+        
+        <h3 class="text-2xl font-bold text-white mb-2">Continue Aprendendo</h3>
+        <p class="text-slate-300 mb-6">Para acessar este curso gratuito e acompanhar seu progresso em qualquer dispositivo, basta informar seus dados abaixo.</p>
+        
+        <form id="lead-capture-form" class="space-y-4">
+          <input type="hidden" name="course" value={courseSlug} />
+          
+          <div>
+            <label for="lead-name" class="block text-sm font-medium text-slate-300 mb-1">Nome</label>
+            <input 
+              type="text" 
+              id="lead-name" 
+              name="name" 
+              required
+              class="w-full px-4 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+              placeholder="Seu primeiro nome"
+            />
+          </div>
+          
+          <div>
+            <label for="lead-email" class="block text-sm font-medium text-slate-300 mb-1">Email</label>
+            <input 
+              type="email" 
+              id="lead-email" 
+              name="email" 
+              required
+              class="w-full px-4 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+              placeholder="seu@email.com"
+            />
+          </div>
+          
+          <button 
+            type="submit"
+            class="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all duration-300"
+          >
+            Acessar Curso Grátis
+          </button>
+          
+          <p class="text-xs text-slate-500 mt-3">
+            Prometemos não spamar seu email. Você pode cancelar a qualquer momento.
+          </p>
+        </form>
+        
+        <button id="modal-skip" class="text-sm text-slate-400 hover:text-white mt-4 underline">
+          Continuar como visitante (sem salvar progresso)
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ showDelay }}>
+  // Script inline para comportamento do modal
+  const modal = document.getElementById('lead-capture-modal');
+  const overlay = document.getElementById('modal-overlay');
+  const closeBtn = document.getElementById('modal-close');
+  const skipBtn = document.getElementById('modal-skip');
+  const form = document.getElementById('lead-capture-form');
+  
+  // Verificar se já capturou
+  const hasCaptured = localStorage.getItem('sekkolab_lead_captured');
+  
+  if (!hasCaptured) {
+    // Mostrar após delay
+    setTimeout(() => {
+      modal.classList.remove('hidden');
+    }, showDelay);
+  }
+  
+  // Funções de fechar
+  function closeModal() {
+    modal.classList.add('hidden');
+  }
+  
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', closeModal);
+  skipBtn.addEventListener('click', closeModal);
+  
+  // Enviar form
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData);
+    
+    try {
+      const response = await fetch('/api/capture-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      
+      if (response.ok) {
+        localStorage.setItem('sekkolab_lead_captured', 'true');
+        localStorage.setItem('sekkolab_lead_email', data.email);
+        closeModal();
+        // Mostrar mensagem de sucesso ou redirecionar
+        alert('Pronto! Agora você pode acessar o curso.');
+      }
+    } catch (error) {
+      console.error('Erro ao capturar lead:', error);
+    }
+  });
+</script>

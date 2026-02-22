@@ -1,0 +1,166 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Accordion from '../components/Accordion.astro';
+import CursoCard from '../components/CursoCard.astro';
+import { CheckCircle, Zap, Users, Download, Star } from 'lucide-astro';
+
+// Importar dados dos cursos gratuitos
+import seo from '../data/cursos/seo-com-ia.json';
+import copy from '../data/cursos/copy-com-ia.json';
+import produtividade from '../data/cursos/produtividade-ia.json';
+import trafego from '../data/cursos/trafego-pago-ia.json';
+
+// Adicionando as imagens de capa para cada curso
+// Adicionando as imagens de capa E forçando o SLUG exato para o link funcionar
+const cursosGratuitos = [
+  { ...seo, slug: 'seo-com-ia', imagem: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600' },
+  { ...copy, slug: 'copy-com-ia', imagem: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=600' },
+  { ...produtividade, slug: 'produtividade-ia', imagem: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&q=80&w=600' },
+  { ...trafego, slug: 'trafego-pago-ia', imagem: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=600' }
+];
+
+const modulos = [
+  {
+    title: 'Track 1: Desenvolvimento Pessoal e Carreira',
+    content: `
+      <ul class="list-disc pl-5 space-y-2">
+        <li><strong>Módulo 1:</strong> Mindset e Produtividade com IA – Prompts para rotinas diárias, automação de tarefas.</li>
+        <li><strong>Módulo 2:</strong> Liderança e Equipes Remotas – Técnicas de influência com IA para reuniões/feedback.</li>
+        <li><strong>Módulo 3:</strong> Inglês para Negócios Fluente – Frases prontas + IA como tutor.</li>
+        <li><strong>Módulo 4:</strong> Plano de Carreira e Personal Branding – LinkedIn otimizado com IA, metas 2026-2028.</li>
+      </ul>
+    `
+  },
+  {
+    title: 'Track 2: Marketing Digital e Vendas',
+    content: `
+      <ul class="list-disc pl-5 space-y-2">
+        <li><strong>Módulo 5:</strong> SEO Avançado com IA – Ferramentas como Surfer + Gemini para ranqueamento.</li>
+        <li><strong>Módulo 6:</strong> Tráfego Pago Profissional – Google/Meta Ads otimizados por IA.</li>
+        <li><strong>Módulo 7:</strong> Copywriting com IA – 50+ prompts para headlines, e-mails, landing pages.</li>
+        <li><strong>Módulo 8:</strong> Funis de Vendas e Automação – E-mail marketing + chatbots IA.</li>
+        <li><strong>Módulo 9:</strong> Análise de Dados e Finanças – Google Analytics + IA para insights financeiros.</li>
+        <li><strong>Módulo 10:</strong> Projeto Final Integrado – Plano personalizado para R$10k+/mês.</li>
+      </ul>
+    `
+  }
+];
+
+const bonus = [
+  '200 prompts exclusivos para ChatGPT, Gemini e Grok',
+  'Templates de planilhas e dashboards',
+  'Comunidade no Telegram com suporte',
+  'Atualizações gratuitas por 1 ano',
+  'Certificado de conclusão com 40h'
+];
+
+const depoimentos = [
+  {
+    texto: "A parte de SEO com IA foi um divisor de águas. Meus sites estão na primeira página do Google.",
+    autor: "Carlos M.",
+    cargo: "Especialista em SEO"
+  },
+  {
+    texto: "Comecei do zero e em 3 meses já estava usando IA para criar campanhas de anúncio. O suporte é incrível!",
+    autor: "Juliana R.",
+    cargo: "Gestora de Tráfego"
+  },
+  {
+    texto: "Já tinha feito outros cursos, mas o SekkoLab me mostrou como aplicar IA de verdade. Meu time aumentou a produtividade em 40%.",
+    autor: "André S.",
+    cargo: "Gerente de Marketing"
+  }
+];
+---
+
+<MainLayout title="Curso Trilha IA: Do Zero ao Topo">
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <div class="text-center mb-16">
+      <h1 class="text-5xl md:text-6xl font-heading font-black text-white mb-4">
+        Trilha IA: <span class="text-primary">Do Zero ao Topo</span>
+      </h1>
+      <p class="text-xl text-slate-400 max-w-3xl mx-auto">
+        O treinamento mais completo para você dominar Inteligência Artificial e aplicar em Marketing Digital, Vendas e Carreira.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+      <div class="bg-slate-900/50 border border-white/5 rounded-2xl p-6 text-center">
+        <Zap class="w-10 h-10 text-primary mx-auto mb-4" />
+        <h3 class="text-white font-bold text-lg">100% Prático</h3>
+        <p class="text-sm text-slate-400">Aulas em vídeo, exercícios e projetos reais.</p>
+      </div>
+      <div class="bg-slate-900/50 border border-white/5 rounded-2xl p-6 text-center">
+        <Users class="w-10 h-10 text-primary mx-auto mb-4" />
+        <h3 class="text-white font-bold text-lg">Comunidade Ativa</h3>
+        <p class="text-sm text-slate-400">Grupo exclusivo para networking e suporte.</p>
+      </div>
+      <div class="bg-slate-900/50 border border-white/5 rounded-2xl p-6 text-center">
+        <Download class="w-10 h-10 text-primary mx-auto mb-4" />
+        <h3 class="text-white font-bold text-lg">Bônus Exclusivos</h3>
+        <p class="text-sm text-slate-400">Prompts, templates e materiais complementares.</p>
+      </div>
+    </div>
+
+    <h2 class="text-3xl font-heading font-black text-white mb-8">Conteúdo Programático</h2>
+    <Accordion items={modulos} />
+
+    <div class="mt-16 bg-gradient-to-br from-slate-900 to-black border border-accent/20 p-8 rounded-3xl">
+      <h3 class="text-2xl font-bold text-white mb-4">Bônus imperdíveis</h3>
+      <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {bonus.map(item => (
+          <li class="flex items-center gap-3 text-slate-300">
+            <CheckCircle class="w-5 h-5 text-success flex-shrink-0" />
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="mt-16">
+      <h2 class="text-3xl font-heading font-black text-white mb-8 text-center">O que nossos alunos dizem</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {depoimentos.map(dep => (
+          <div class="bg-slate-900/50 border border-white/5 rounded-2xl p-6">
+            <div class="flex text-primary mb-4">
+              <Star class="w-5 h-5 fill-primary" />
+              <Star class="w-5 h-5 fill-primary" />
+              <Star class="w-5 h-5 fill-primary" />
+              <Star class="w-5 h-5 fill-primary" />
+              <Star class="w-5 h-5 fill-primary" />
+            </div>
+            <p class="text-slate-300 mb-4">"{dep.texto}"</p>
+            <p class="text-white font-bold">{dep.autor}</p>
+            <p class="text-sm text-slate-500">{dep.cargo}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {cursosGratuitos.map(curso => (
+          <CursoCard
+            titulo={curso.titulo}
+            descricao={curso.descricao}
+            cargaHoraria={curso.cargaHoraria}
+            slug={curso.slug} gratuito={true}
+            imagem={curso.imagem} 
+          />
+        ))}
+      </div>
+    </section>
+
+    <div class="mt-20 text-center">
+      <div class="inline-block bg-white/5 border border-white/10 rounded-2xl p-8">
+        <span class="text-sm text-slate-400 uppercase tracking-wider">Investimento</span>
+        <div class="text-5xl font-heading font-black text-white mt-2">R$ 297</div>
+        <div class="text-sm text-slate-500 mt-1">ou 12x de R$ 29,70</div>
+        <p class="text-success text-sm mt-4">Garantia incondicional de 14 dias</p>
+        <a href="#" class="mt-6 inline-block w-full sm:w-auto px-12 py-5 bg-primary text-white font-bold rounded-xl text-lg hover:bg-primary/80 transition">
+          Quero me inscrever agora
+        </a>
+        <p class="text-xs text-slate-600 mt-4">Acesso imediato • Pagamento via Hotmart</p>
+      </div>
+    </div>
+  </div>
+</MainLayout>

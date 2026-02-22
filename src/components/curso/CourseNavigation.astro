@@ -1,0 +1,29 @@
+---
+// src/components/curso/CourseNavigation.astro
+interface Props {
+  courseSlug: string;
+  courseTitle: string;
+  currentLesson?: string;
+}
+const { courseSlug, courseTitle, currentLesson } = Astro.props;
+---
+<nav class="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
+  <a href="/cursos-gratuitos" class="flex items-center gap-2 text-slate-400 hover:text-cyan-400 transition-colors group">
+    <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+    </svg>
+    <span>Voltar aos Cursos</span>
+  </a>
+  
+  <div class="flex items-center gap-2 text-sm text-slate-500">
+    <span class="px-2 py-1 bg-cyan-500/20 text-cyan-400 rounded text-xs font-medium">{courseTitle}</span>
+    {currentLesson && (
+      <>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+        <span>{currentLesson}</span>
+      </>
+    )}
+  </div>
+</nav>

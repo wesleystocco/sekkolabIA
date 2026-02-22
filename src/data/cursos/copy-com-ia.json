@@ -1,0 +1,22 @@
+{
+    "id": "copy-com-ia",
+    "titulo": "Copywriting com IA: Persuasão em Escala",
+    "descricao": "Domine a arte de gerar headlines, e-mails e anúncios com ChatGPT, Gemini e outras IAs. Inclui 50 prompts prontos.",
+    "cargaHoraria": 6,
+    "modulos": [{
+        "nome": "Módulo 1: Fundamentos da Copy",
+        "microModulos": [{
+            "id": "1.1",
+            "titulo": "O que é Copywriting?",
+            "tempo": 5,
+            "conteudo": "<p>Copywriting é a arte de escrever textos persuasivos que levam o leitor a uma ação específica. Com IA, podemos acelerar esse processo sem perder a qualidade.</p>",
+            "leituras": [
+                { "titulo": "O Poder da Persuasão", "autor": "Robert Cialdini", "link": "#" },
+                { "titulo": "A Bíblia do Copywriting", "autor": "Neil Patel", "link": "#" }
+            ],
+            "pergunta": "Qual o principal objetivo do copywriting?",
+            "opcoes": ["Informar", "Entreter", "Persuadir a agir"],
+            "respostaCorreta": 2
+        }]
+    }]
+}

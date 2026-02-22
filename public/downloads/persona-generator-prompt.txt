@@ -1,0 +1,93 @@
+# SEKKOLAB - Persona Generator Prompt
+## Guia completo para criar sua persona com IA
+
+### INSTRUÇÕES:
+1. Copie todo o conteúdo abaixo (incluindo o prompt)
+2. Cole no ChatGPT, Claude ou outra IA
+3. Substitua os campos entre [colchetes] com suas informações
+4. Refine a resposta com a IA até ficar perfeita
+
+### PROMPT COMPLETO:
+"""
+Você é um especialista em marketing digital e análise de público-alvo. 
+Crie uma persona detalhada para [sua área de atuação/produto/serviço].
+
+Para cada seção abaixo, forneça informações específicas e detalhadas:
+
+1. DEMOGRAFIA
+   - Idade (faixa específica)
+   - Gênero predominante
+   - Localização geográfica
+   - Nível educacional
+   - Situação financeira/faixa de renda
+   - Ocupação/profissão
+
+2. PSICOGRAFIA
+   - Valores e crenças principais
+   - Estilo de vida e hobbies
+   - Personalidade e temperamento
+   - Atitudes em relação a [seu nicho]
+   - Medos e frustrações relacionados a [seu nicho]
+   - Desejos e aspirações relacionados a [seu nicho]
+
+3. COMPORTAMENTO DIGITAL
+   - Quais redes sociais mais utiliza
+   - Quanto tempo passa nas redes diariamente
+   - Tipos de conteúdo que consome
+   - Comportamento de compra online
+   - Influenciadores que segue
+
+4. DORES ESPECÍFICAS
+   - Liste pelo menos 5 problemas específicos que sua persona enfrenta
+   - Para cada problema, descreva a situação, o sentimento e o impacto na vida
+
+5. DESEJOS E SONHOS
+   - Liste pelo menos 5 resultados que sua persona deseja alcançar
+   - Para cada desejo, descreva como seria a vida após alcançar
+
+6. OBJEÇÕES COMUNS
+   - Liste pelo menos 5 objeções que essa persona teria antes de comprar [seu produto/serviço]
+   - Para cada objeção, sugira como ela pode ser superada
+
+7. LINGUAGEM E PALAVRAS-CHAVE
+   - Termos técnicos que usa
+   - Gírias e expressões comuns
+   - Palavras que usa para descrever seus problemas
+   - Palavras que usa para descrever soluções desejadas
+
+8. FONTES DE INFORMAÇÃO
+   - Blogs e sites que visita
+   - Podcasts que ouve
+   - Livros que lê
+   - Grupos e comunidades que participa
+
+Forneça tudo em formato organizado e utilizável para criação de conteúdo.
+"""
+
+### EXEMPLO DE USO (seu nicho = marketing digital para pequenas empresas):
+""" 
+Você é um especialista em marketing digital e análise de público-alvo.
+Crie uma persona detalhada para marketing digital para pequenas empresas...
+"""
+
+### DICA EXTRA:
+Após receber a resposta, peça refinamentos:
+- "Me dê 5 frases que essa persona usaria para descrever seus problemas"
+- "Quais são os 10 principais medos dessa persona?"
+- "Crie uma biografia de 200 palavras para essa persona"
+
+### TEMPLATE PARA SALVAR SUA PERSONA:
+Nome da Persona: _______________________
+Idade: _______________________
+Profissão: _______________________
+Principais Dores: 
+1. _______________________
+2. _______________________
+3. _______________________
+
+Principais Desejos:
+1. _______________________
+2. _______________________
+3. _______________________
+
+Tom de Voz Preferido: _______________________

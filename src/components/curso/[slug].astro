@@ -1,0 +1,285 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/curso/Breadcrumb.astro';
+import CourseNavigation from '../../components/curso/CourseNavigation.astro';
+import Pontuacao from '../../components/curso/Pontuacao.astro';
+import StreakCounter from '../../components/curso/StreakCounter.astro';
+import SeletorTempo from '../../components/curso/SeletorTempo.astro';
+import ProgressoBar from '../../components/curso/ProgressoBar.astro';
+import MicroModulo from '../../components/curso/MicroModulo.astro';
+import AtividadePratica from '../../components/curso/AtividadePratica.astro';
+import PausaAtiva from '../../components/curso/PausaAtiva.astro';
+
+export async function getStaticPaths() {
+  // Lista todos os arquivos JSON na pasta data/cursos
+  const cursos = import.meta.glob('../../data/cursos/*.json');
+  const slugs = Object.keys(cursos).map(path => path.match(/\/([^/]+)\.json$/)[1]);
+  return slugs.map(slug => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+
+let dadosCurso;
+try {
+  const modulo = await import(`../../data/cursos/${slug}.json`);
+  dadosCurso = modulo.default;
+} catch (error) {
+  console.error('Erro ao carregar JSON do curso:', error);
+  dadosCurso = {
+    id: slug,
+    titulo: "Curso em Desenvolvimento",
+    descricao: "Este curso ainda está sendo elaborado.",
+    cargaHoraria: 0,
+    modulos: []
+  };
+}
+
+const totalModulos = dadosCurso.modulos?.reduce((acc, m) => acc + (m.microModulos?.length || 0), 0) || 0;
+
+// Dados simulados para gamificação (depois podem vir do usuário)
+const pontosUsuario = 150;
+const nivelUsuario = 2;
+const conquistasUsuario = [
+  { id: 'iniciado', nome: 'Primeiros Passos', icone: '🚀', descricao: 'Iniciou um curso', desbloqueada: true },
+  { id: 'quiz1', nome: 'Mestre do Quiz', icone: '🧠', descricao: 'Acertou um quiz', desbloqueada: false },
+  { id: 'streak3', nome: '3 Dias Seguidos', icone: '🔥', descricao: 'Estudou 3 dias consecutivos', desbloqueada: true },
+];
+const streakDias = 5;
+const streakData = new Date().toISOString().split('T')[0];
+---
+
+<MainLayout title={`${dadosCurso.titulo} – Curso Grátis`}>
+  <!-- Pontuação fixa no canto superior direito -->
+  <Pontuacao pontos={pontosUsuario} nivel={nivelUsuario} conquistas={conquistasUsuario} />
+
+  <div class="max-w-5xl mx-auto px-4 py-12">
+    <!-- Breadcrumb -->
+    <Breadcrumb items={[
+      { label: 'Cursos Gratuitos', href: '/cursos-gratuitos' },
+      { label: dadosCurso.titulo }
+    ]} />
+    
+    <!-- Navegação do curso -->
+    <CourseNavigation 
+      courseSlug={slug}
+      courseTitle={dadosCurso.titulo}
+      currentLesson="Visão Geral"
+    />
+
+    <!-- Header do Curso -->
+    <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-8 mb-8 border border-white/10">
+      <div class="flex flex-col lg:flex-row gap-8 items-start">
+        <div class="flex-1">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="px-3 py-1 bg-cyan-500/20 text-cyan-400 text-sm font-medium rounded-full">Curso Grátis</span>
+            <span class="px-3 py-1 bg-amber-500/20 text-amber-400 text-sm font-medium rounded-full flex items-center gap-1">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+              4.9
+            </span>
+          </div>
+          
+          <h1 class="text-3xl lg:text-4xl font-bold text-white mb-4">{dadosCurso.titulo}</h1>
+          <p class="text-slate-300 text-lg mb-6">{dadosCurso.descricao}</p>
+          
+          <div class="flex flex-wrap gap-4 text-sm text-slate-400">
+            <span class="flex items-center gap-1">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              {dadosCurso.cargaHoraria}h de conteúdo
+            </span>
+            <span class="flex items-center gap-1">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+              </svg>
+              {totalModulos} módulos
+            </span>
+            <span class="flex items-center gap-1">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+              </svg>
+              Certificado
+            </span>
+          </div>
+        </div>
+        
+        <!-- Streak Counter -->
+        <StreakCounter diasConsecutivos={streakDias} ultimaData={streakData} />
+      </div>
+    </div>
+
+    <!-- Seletor de tempo -->
+    <div class="bg-slate-800/50 rounded-2xl p-6 mb-8 border border-white/5">
+      <h2 class="text-white font-semibold mb-4 flex items-center gap-2">
+        <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        Quanto tempo você tem hoje?
+      </h2>
+      <SeletorTempo />
+    </div>
+
+    <!-- Barra de Progresso -->
+    <div class="mb-8">
+      <ProgressoBar />
+    </div>
+
+    <!-- Lista de Módulos -->
+    <div id="modulos-container" class="space-y-8">
+      {dadosCurso.modulos?.map((modulo, modIndex) => (
+        <section key={modIndex} class="modulo-section">
+          <h2 class="text-2xl font-bold text-white mb-4">{modulo.nome}</h2>
+          <div class="space-y-6">
+            {modulo.microModulos?.map((micro, micIndex) => (
+              <MicroModulo key={micro.id} modulo={micro} numero={parseInt(micro.id)}>
+                {micro.pergunta && micro.opcoes && (
+                  <div slot="quiz" class="mt-4 p-4 bg-slate-800/50 rounded-xl">
+                    <p class="text-white font-medium mb-3">{micro.pergunta}</p>
+                    <div class="space-y-2">
+                      {micro.opcoes.map((opt, idx) => (
+                        <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-700/50 cursor-pointer">
+                          <input type="radio" name={`pergunta-${micro.id}`} value={idx} class="text-primary" />
+                          <span class="text-slate-300">{opt}</span>
+                        </label>
+                      ))}
+                    </div>
+                    <button class="btn-responder mt-3 px-4 py-2 bg-cyan-500 text-white rounded-lg text-sm" data-modulo={micro.id}>
+                      Verificar resposta
+                    </button>
+                    <div class="feedback mt-2 text-sm hidden"></div>
+                  </div>
+                )}
+                {micro.atividade && (
+                  <div slot="atividade">
+                    <AtividadePratica
+                      id={micro.id}
+                      titulo="Atividade Prática"
+                      descricao={micro.atividade}
+                      tipo={micro.tipoAtividade || 'texto'}
+                      pontos={50}
+                      placeholder="Digite sua resposta aqui..."
+                    />
+                  </div>
+                )}
+              </MicroModulo>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  </div>
+
+  <!-- Pausa Ativa -->
+  <PausaAtiva />
+</MainLayout>
+
+<script>
+  // Dados do curso disponíveis no frontmatter
+  const dadosCurso = JSON.parse('{{dadosCurso | json | safe}}');
+
+  // Estado global
+  const STORAGE_KEY = `progresso-${dadosCurso.id}`;
+  let concluidos = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  let pontos = 150; // inicial, depois carregar de localStorage também
+
+  // Funções auxiliares
+  function atualizarProgresso() {
+    const total = dadosCurso.modulos?.reduce((acc, m) => acc + (m.microModulos?.length || 0), 0) || 0;
+    const progresso = total > 0 ? (concluidos.length / total) * 100 : 0;
+    const barra = document.getElementById('progresso-barra');
+    const texto = document.getElementById('progresso-texto');
+    if (barra) barra.style.width = `${progresso}%`;
+    if (texto) texto.textContent = `${Math.round(progresso)}%`;
+  }
+
+  function salvarProgresso() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(concluidos));
+  }
+
+  // Event listeners
+  document.addEventListener('modulo-concluido', (e) => {
+    const id = e.detail.id;
+    if (!concluidos.includes(id)) {
+      concluidos.push(id);
+      salvarProgresso();
+      atualizarProgresso();
+      // Atualizar pontos (simulado)
+      pontos += 50;
+      document.dispatchEvent(new CustomEvent('pontos-atualizados', { detail: { pontos } }));
+    }
+  });
+
+  document.addEventListener('pontos-ganhos', (e) => {
+    const { pontos: ganhos } = e.detail;
+    pontos += ganhos;
+    document.dispatchEvent(new CustomEvent('pontos-atualizados', { detail: { pontos } }));
+  });
+
+  document.addEventListener('atividade-concluida', (e) => {
+    const id = e.detail.id;
+    if (!concluidos.includes(id)) {
+      concluidos.push(id);
+      salvarProgresso();
+      atualizarProgresso();
+    }
+  });
+
+  // Atualizar componente de pontuação (simples: recarregar a página? melhor não)
+  // Por simplicidade, podemos recarregar a pontuação via evento e usar innerHTML ou estado.
+  // Vamos criar um listener para 'pontos-atualizados' que atualiza o texto no componente Pontuacao
+  document.addEventListener('pontos-atualizados', (e) => {
+    const novosPontos = e.detail.pontos;
+    const pontosEl = document.querySelector('.pontuacao-container .text-amber-400');
+    if (pontosEl) {
+      pontosEl.textContent = `${novosPontos} pts`;
+    }
+    // Idealmente, o componente Pontuacao deveria ser reativo, mas vamos simplificar
+  });
+
+  // Configurar listeners para os botões de quiz e concluir
+  window.addEventListener('load', () => {
+    atualizarProgresso();
+
+    // Botões de responder quiz
+    document.querySelectorAll('.btn-responder').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = e.target.dataset.modulo;
+        const modulo = dadosCurso.modulos.flatMap(m => m.microModulos).find(m => m.id === id);
+        const selected = document.querySelector(`input[name="pergunta-${id}"]:checked`);
+        const feedback = e.target.parentElement.querySelector('.feedback');
+        if (!selected) {
+          feedback.textContent = 'Selecione uma opção.';
+          feedback.className = 'feedback mt-2 text-sm text-warning';
+          feedback.classList.remove('hidden');
+          return;
+        }
+        const respostaIdx = parseInt(selected.value);
+        if (respostaIdx === modulo.respostaCorreta) {
+          feedback.textContent = 'Resposta correta! Agora marque como concluído.';
+          feedback.className = 'feedback mt-2 text-sm text-success';
+        } else {
+          feedback.textContent = 'Resposta incorreta. Releia o conteúdo e tente novamente.';
+          feedback.className = 'feedback mt-2 text-sm text-error';
+        }
+        feedback.classList.remove('hidden');
+      });
+    });
+
+    // Botões de concluir dos MicroModulos
+    document.querySelectorAll('.btn-concluir').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = e.target.dataset.modulo;
+        // Dispara evento de módulo concluído
+        document.dispatchEvent(new CustomEvent('modulo-concluido', { detail: { id } }));
+        // Desabilita o botão
+        e.target.disabled = true;
+        e.target.textContent = 'Concluído ✓';
+      });
+    });
+
+    // Botões de enviar atividade já têm seus próprios eventos nos componentes AtividadePratica
+    // Eles disparam 'atividade-concluida' que já estamos ouvindo
+  });
+</script>

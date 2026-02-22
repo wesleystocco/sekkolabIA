@@ -1,0 +1,27 @@
+---
+export interface Props {
+  title: string;
+  date: Date;
+  category: string;
+  excerpt: string;
+  slug: string;
+  image?: string;
+}
+
+const { title, date, category, excerpt, slug, image = '/og-image.png' } = Astro.props;
+const formattedDate = date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+---
+
+<a href={`/blog/${slug}`} class="group block bg-slate-900/50 border border-white/5 rounded-2xl overflow-hidden hover:border-primary/50 transition-all">
+  <div class="h-48 overflow-hidden">
+    <img src={image} alt={title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+  </div>
+  <div class="p-6">
+    <div class="flex items-center gap-3 text-xs mb-3">
+      <span class="px-2 py-1 bg-primary/10 text-primary rounded-full">{category}</span>
+      <span class="text-slate-500">{formattedDate}</span>
+    </div>
+    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-primary transition-colors">{title}</h3>
+    <p class="text-sm text-slate-400">{excerpt}</p>
+  </div>
+</a>

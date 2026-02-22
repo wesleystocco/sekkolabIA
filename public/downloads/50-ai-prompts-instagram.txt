@@ -1,0 +1,131 @@
+# SEKKOLAB - 50 Prompts de IA para Instagram
+## Gerar conteúdo, imagens e estratégias
+
+### COMO USAR:
+1. Escolha a categoria desejada
+2. Copie o prompt e cole no ChatGPT (ou ferramenta de imagem)
+3. Substitua os [colchetes] pelo seu contexto
+4. Refine até obter o resultado ideal
+
+---
+
+### 1. GERAÇÃO DE LEGENDAS (10 prompts)
+
+1. "Crie 10 legendas curtas e impactantes para um post sobre [tema]. Use tom [descontraído/profissional/motivacional]. Inclua emojis discretos e hashtags relevantes."
+
+2. "Gere 5 legendas para Reels sobre [tema]. Cada legenda deve ter um gancho forte, desenvolvimento rápido e CTA claro. Mantenha entre 80-120 caracteres."
+
+3. "Escreva 3 legendas longas (até 300 palavras) para um carrossel educativo sobre [tema]. Use storytelling e inclua perguntas para engajar nos comentários."
+
+4. "Crie 7 variações de legenda para um post promocional de [produto/serviço]. Varie entre tom de urgência, autoridade e benefício."
+
+5. "Gere 10 opções de chamadas para ação (CTA) para posts de Instagram sobre [tema]. Exemplos: 'Salva para não esquecer', 'Compartilha com quem precisa', 'Me segue para mais dicas'."
+
+6. "Escreva uma legenda emocional para um post de aniversário de empresa/ perfil. Destaque conquistas, aprendizados e agradecimentos à comunidade."
+
+7. "Crie 5 legendas para posts de bastidores. Mostre o processo criativo, erros e acertos, de forma autêntica."
+
+8. "Gere 8 opções de legendas para posts de depoimento de cliente. Adapte para um cliente satisfeito com [seu produto]."
+
+9. "Escreva 4 legendas para posts de curiosidade ou mitos sobre [tema]. Use frases como 'Mito ou verdade?' para gerar engajamento."
+
+10. "Crie 6 legendas para posts interativos (enquetes, perguntas). Inclua convite para participar nos stories."
+
+### 2. IDEIAS DE CONTEÚDO (10 prompts)
+
+11. "Gere 30 ideias de posts para Instagram sobre [tema]. Classifique em: educacional, inspiracional, entretenimento, vendas."
+
+12. "Liste 20 perguntas frequentes que o público de [nicho] faz. Depois, sugira formatos de post para responder cada uma."
+
+13. "Crie um calendário editorial para 30 dias para [tema]. Inclua sugestão de formato e gancho principal para cada dia."
+
+14. "Proponha 15 temas para Reels virais dentro do nicho [nicho]. Para cada, sugira um gancho nos primeiros 3 segundos."
+
+15. "Gere 10 ideias de séries de conteúdo (ex: #DicaDoDia). Descreva os posts de cada série."
+
+16. "Liste 20 gatilhos mentais e emocionais que funcionam em [nicho]. Para cada, dê um exemplo de post."
+
+17. "Crie 5 desafios ou trends que podemos iniciar no Instagram sobre [tema]."
+
+18. "Sugira 8 posts de comparação (antes/depois, certo/errado) para [nicho]."
+
+19. "Gere 12 ideias de posts colaborativos com outros perfis do mesmo nicho."
+
+20. "Proponha 6 formatos de posts que testamos em A/B para [tema]."
+
+### 3. ROTEIROS PARA REELS (10 prompts)
+
+21. "Escreva um roteiro para Reels de 30 segundos sobre [tema]. Estrutura: Hook, Problema, Solução, CTA."
+
+22. "Crie 5 roteiros para Reels educativos sobre [tema]. Cada um deve explicar um conceito de forma simples e rápida."
+
+23. "Gere roteiro para Reels de 'curiosidade' sobre [tema]. Comece com 'Você sabia que...?'"
+
+24. "Elabore roteiro para Reels de 'dia a dia' ou bastidores, mostrando rotina de trabalho em [nicho]."
+
+25. "Crie roteiro para Reels de 'tutorial rápido' (passo a passo) sobre [atividade]."
+
+26. "Gere roteiro para Reels de 'antes e depois' mostrando transformação com [seu produto/serviço]."
+
+27. "Elabore roteiro para Reels de 'opinião' ou 'ponto de vista' sobre um assunto polêmico no nicho."
+
+28. "Crie roteiro para Reels de 'análise de dados' ou 'insights' do mercado de [nicho]."
+
+29. "Gere roteiro para Reels de 'entrevista rápida' com um especialista no assunto."
+
+30. "Elabore roteiro para Reels de 'encerramento do dia' ou 'balanço semanal' com tom inspirador."
+
+### 4. IDEIAS PARA CARROSSÉIS (5 prompts)
+
+31. "Crie um roteiro para carrossel de 7 slides sobre [tema]. Slide 1: capa impactante, slides 2-6: conteúdo, slide 7: CTA."
+
+32. "Gere 5 capas para carrosséis sobre [tema]. Títulos chamativos, design limpo."
+
+33. "Elabore carrossel de 'lista' (ex: 5 erros que você comete) sobre [tema]. Inclua exemplos."
+
+34. "Crie carrossel de 'passo a passo' (como fazer algo). Detalhe cada passo com imagem e texto."
+
+35. "Gere carrossel de 'mitos x verdades' sobre [tema]. 8 mitos no total."
+
+### 5. HASHTAGS E ESTRATÉGIA (5 prompts)
+
+36. "Gere 100 hashtags relevantes para o nicho [nicho]. Divida em: alta, média e baixa concorrência."
+
+37. "Crie uma estratégia de hashtags por dia da semana para [nicho]. Misture hashtags amplas e específicas."
+
+38. "Liste 30 hashtags de autoridade no [nicho] que têm entre 50k e 500k posts."
+
+39. "Sugira 20 hashtags de comunidade (ex: #bloggersbr) que geram engajamento real."
+
+40. "Analise estas hashtags [lista] e sugira as 10 melhores para nosso perfil."
+
+### 6. GAMIFICAÇÃO E ENGAJAMENTO (5 prompts)
+
+41. "Crie 10 perguntas para usar nos stories (caixinha de perguntas) sobre [tema]."
+
+42. "Gere 8 ideias de enquetes interativas para stories. Cada uma com duas opções engraçadas ou relevantes."
+
+43. "Elabore 5 quizzes de múltipla escolha para stories sobre [tema]. Inclua resposta certa e explicação."
+
+44. "Sugira 6 dinâmicas de 'complete a frase' para engajar nos comentários."
+
+45. "Crie 4 desafios ou trends que incentivem seguidores a marcar amigos."
+
+### 7. CTA E CONVERSÃO (5 prompts)
+
+46. "Gere 20 variações de CTA para stories (ex: 'Arraste pra cima', 'Clique no link', 'Me chame no direct')."
+
+47. "Crie 5 textos para link da bio (chamada principal). Use gatilhos de urgência ou benefício."
+
+48. "Elabore 3 scripts de abordagem para responder DMs de leads qualificados."
+
+49. "Sugira 5 maneiras de usar os stories para promover um [produto/serviço] sem ser invasivo."
+
+50. "Crie 10 frases de 'encerramento' para posts, convidando a pessoa a conhecer a Trilha IA."
+
+### FIM DOS PROMPTS
+
+# DICAS EXTRAS:
+- Sempre personalize os prompts com seu contexto
+- Teste variações e anote os resultados
+- Use a IA como assistente, não como substituta da sua criatividade

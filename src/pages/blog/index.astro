@@ -1,0 +1,28 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<MainLayout title="Blog – SekkoLab IA">
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <h1 class="text-4xl md:text-5xl font-heading font-black text-white mb-4">Blog</h1>
+    <p class="text-slate-400 text-lg mb-8">Conteúdo atualizado sobre IA aplicada a marketing, vendas e carreira.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {posts.map(post => (
+        <PostCard
+          title={post.data.title}
+          date={post.data.date}
+          category={post.data.category}
+          excerpt={post.data.excerpt}
+          slug={post.slug}
+          image={post.data.image}
+        />
+      ))}
+    </div>
+  </div>
+</MainLayout>

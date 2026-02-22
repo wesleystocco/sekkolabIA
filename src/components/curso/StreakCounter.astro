@@ -1,0 +1,58 @@
+---
+// src/components/curso/StreakCounter.astro
+interface Props {
+  diasConsecutivos: number;
+  ultimaData: string;
+}
+
+const { diasConsecutivos, ultimaData } = Astro.props;
+
+const diasDaSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+const hoje = new Date();
+const diasRender = Array.from({ length: 7 }, (_, i) => {
+  const d = new Date(hoje);
+  d.setDate(d.getDate() - (6 - i));
+  return {
+    nome: diasDaSemana[d.getDay()],
+    data: d.toISOString().split('T')[0],
+    ativo: i <= diasConsecutivos
+  };
+});
+---
+
+<div class="streak-container bg-gradient-to-br from-orange-500/10 to-red-500/10 border border-orange-500/20 rounded-2xl p-4">
+  <div class="flex items-center justify-between mb-3">
+    <div class="flex items-center gap-2">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"/>
+        </svg>
+      </div>
+      <div>
+        <p class="text-white font-bold">{diasConsecutivos} dias</p>
+        <p class="text-xs text-slate-400">sequência ativa</p>
+      </div>
+    </div>
+    <div class="text-right">
+      <p class="text-xs text-slate-500">Meta diária</p>
+      <p class="text-sm text-orange-400">1 módulo</p>
+    </div>
+  </div>
+  
+  <!-- Dias da semana -->
+  <div class="flex justify-between">
+    {diasRender.map((dia) => (
+      <div class="flex flex-col items-center gap-1">
+        <div class={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-medium transition-all ${
+          dia.ativo 
+            ? 'bg-gradient-to-br from-orange-400 to-red-500 text-white shadow-lg shadow-orange-500/30' 
+            : 'bg-slate-800 text-slate-500'
+        }`}>
+          {dia.ativo ? '✓' : ''}
+        </div>
+        <span class="text-xs text-slate-500">{dia.nome}</span>
+      </div>
+    ))}
+  </div>
+</div>

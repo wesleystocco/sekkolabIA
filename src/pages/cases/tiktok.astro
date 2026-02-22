@@ -1,0 +1,349 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { BookOpen, Clock, Award, Download, ChevronRight, Star, FileText, TrendingUp, Target, Zap, Users, Calendar, Video, Music, Eye, DollarSign } from 'lucide-astro';
+
+const caseData = {
+  titulo: "TikTok do Zero ao 1M",
+  subtitulo: "Primeiro milhão de visualizações em 90 dias",
+  descricao: "Sistema comprovado que transformou uma conta zerada em 2.3M visualizações em 90 dias",
+  imagem: "https://images.unsplash.com/photo-1611162616475-46b635cb6868?auto=format&fit=crop&q=80&w=800",
+  tempoLeitura: 35,
+  nivel: "Iniciante",
+  topicos: [
+    "Psicologia do Algoritmo",
+    "Setup Profissional",
+    "Análise de Nicho",
+    "Formatos que Funcionam",
+    "Hooks que Prendem",
+    "Edição Profissional",
+    "Estratégia de Posting",
+    "Séries e Formatos",
+    "Análise e Otimização",
+    "Construção de Comunidade",
+    "Monetização",
+    "Escala"
+  ]
+};
+---
+
+<MainLayout title={`${caseData.titulo} – Case SekkoLab`}>
+  <!-- Hero -->
+  <div class="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-b border-white/5">
+    <div class="max-w-7xl mx-auto px-4 py-16 md:py-24">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="inline-block px-3 py-1 bg-cyan-500/20 text-cyan-400 text-sm font-medium rounded-full mb-4">Caso de Estudo</span>
+          <h1 class="text-4xl md:text-5xl font-heading font-black text-white leading-tight mb-4">
+            {caseData.titulo}
+          </h1>
+          <p class="text-xl text-slate-300 mb-6">{caseData.subtitulo}</p>
+          <p class="text-slate-400 text-lg mb-8">{caseData.descricao}</p>
+          
+          <div class="flex flex-wrap gap-4 text-sm text-slate-400 mb-8">
+            <span class="flex items-center gap-1">
+              <Clock class="w-4 h-4" /> {caseData.tempoLeitura} min de leitura
+            </span>
+            <span class="flex items-center gap-1">
+              <Award class="w-4 h-4" /> {caseData.nivel}
+            </span>
+          </div>
+          
+          <div class="flex flex-wrap gap-3">
+            <a href="#conteudo" class="px-6 py-3 bg-cyan-500 text-white font-semibold rounded-xl hover:bg-cyan-600 transition flex items-center gap-2">
+              Começar a ler <ChevronRight class="w-4 h-4" />
+            </a>
+            <a href="/cursos" class="px-6 py-3 border border-white/10 text-white font-semibold rounded-xl hover:bg-white/5 transition">
+              Conhecer a Trilha IA
+            </a>
+          </div>
+        </div>
+        <div class="relative">
+          <img src={caseData.imagem} alt={caseData.titulo} class="rounded-2xl shadow-2xl border border-white/10" />
+          <div class="absolute -bottom-4 -right-4 bg-cyan-500 text-white p-3 rounded-xl shadow-lg">
+            <Eye class="w-6 h-6" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Índice rápido -->
+  <div id="conteudo" class="max-w-4xl mx-auto px-4 py-16">
+    <div class="bg-slate-800/50 rounded-2xl p-6 mb-12 border border-white/5">
+      <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+        <FileText class="w-5 h-5 text-cyan-400" /> Neste guia você vai aprender
+      </h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+        {caseData.topicos.map(t => (
+          <span class="text-slate-300 text-sm flex items-center gap-1">
+            <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full"></span> {t}
+          </span>
+        ))}
+      </div>
+    </div>
+
+    <!-- Introdução -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Introdução: O poder do TikTok</h2>
+      <div class="prose prose-invert prose-lg max-w-none">
+        <p>O TikTok é a plataforma que mais cresce no mundo e oferece oportunidades de alcance orgânico incomparáveis. Diferente de outras redes, um vídeo pode viralizar mesmo em uma conta nova, com zero seguidores. O algoritmo é baseado em conteúdo, não em popularidade.</p>
+        <p>Este guia ensina um sistema testado para alcançar seu primeiro milhão de visualizações em 90 dias, com estratégias replicáveis e sem depender de sorte.</p>
+      </div>
+    </section>
+
+    <!-- Capítulo 1: Psicologia do Algoritmo -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Capítulo 1: Psicologia do Algoritmo</h2>
+      <div class="prose prose-invert prose-lg max-w-none">
+        <h3>1.1 Por que o TikTok é diferente</h3>
+        <p>O TikTok prioriza o interesse do usuário acima de tudo. Seu conteúdo é mostrado para um pequeno grupo de pessoas com base em palavras-chave, hashtags e comportamento. Se elas interagem, o vídeo é expandido. O segredo é criar conteúdo que prenda a atenção nos primeiros segundos e incentive interações.</p>
+        <h3>1.2 Os 4 pilares de distribuição</h3>
+        <ul>
+          <li><strong>Retenção:</strong> Quantas pessoas assistem até o final ou repetem.</li>
+          <li><strong>Engajamento:</strong> Curtidas, comentários, compartilhamentos.</li>
+          <li><strong>Completude:</strong> Vídeos assistidos por completo têm prioridade.</li>
+          <li><strong>Consistência:</strong> Contas que postam regularmente são favorecidas.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Capítulo 2: Setup Profissional -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Capítulo 2: Setup Profissional</h2>
+      <div class="prose prose-invert prose-lg max-w-none">
+        <h3>2.1 Configurações de conta para crescimento</h3>
+        <ul>
+          <li>Mude para conta Pro (gratuita) para ter acesso a analytics.</li>
+          <li>Escolha um nome de usuário fácil de lembrar.</li>
+          <li>Bio otimizada: diga quem você é, o que faz e inclua um CTA.</li>
+          <li>Link na bio: use um agregador como Linktree ou Beacons.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Capítulo 3: Análise de Nicho no TikTok -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Capítulo 3: Análise de Nicho no TikTok</h2>
+      <div class="prose prose-invert prose-lg max-w-none">
+        <h3>3.1 Nichos mais lucrativos em 2025</h3>
+        <ul>
+          <li>Educação (dicas rápidas, curiosidades)</li>
+          <li>Entretenimento (humor, esquetes)</li>
+          <li>Estilo de vida (moda, beleza, viagens)</li>
+          <li>Tecnologia (apps, gadgets)</li>
+          <li>Finanças pessoais (investimentos, economia)</li>
+        </ul>
+        <p>Analise a concorrência: veja vídeos com milhões de views no seu nicho e identifique padrões.</p>
+      </div>
+    </section>
+
+    <!-- Capítulo 4: Formatos que Funcionam -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Capítulo 4: Formatos que Funcionam</h2>
+      <div class="prose prose-invert prose-lg max-w-none">
+        <h3>4.1 Estudo dos 10 formatos mais virais</h3>
+        <ol>
+          <li>Dicas rápidas (ex: "5 dicas para...")</li>
+          <li>Antes/depois</li>
+          <li>Tutoriais passo a passo</li>
+          <li>Desafios e trends</li>
+          <li>POV (point of view)</li>
+          <li>Duetos com vídeos virais</li>
+          <li>Stitches com opiniões</li>
+          <li>Séries diárias (ex: "Dia 1 de 30")</li>
+          <li>Curiosidades e fatos</li>
+          <li>Histórias pessoais</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Capítulo 5: Hooks que Prendem -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Capítulo 5: Hooks que Prendem</h2>
+      <div class="prose prose-invert prose-lg max-w-none">
+        <h3>5.1 Anatomia do primeiro segundo</h3>
+        <p>Os primeiros 1-3 segundos determinam se o usuário continuará assistindo. Use frases de impacto, perguntas, afirmações chocantes ou imagens intrigantes.</p>
+        <p><strong>15 hooks eficazes:</strong></p>
+        <ul>
+          <li>"Você sabia que...?"</li>
+          <li>"Pare de fazer isso se você quer..."</li>
+          <li>"O segredo para..."</li>
+          <li>"Ninguém te conta isso, mas..."</li>
+          <li>"3 coisas que aprendi sobre..."</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Capítulo 6: Edição Profissional -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Capítulo 6: Edição Profissional</h2>
+      <div class="prose prose-invert prose-lg max-w-none">
+        <h3>6.1 Técnicas de edição que aumentam retenção</h3>
+        <ul>
+          <li>Cortes rápidos (elimine pausas)</li>
+          <li>Zoom in/out em momentos chave</li>
+          <li>Textos sobrepostos para destacar pontos</li>
+          <li>Transições suaves</li>
+          <li>Sons e efeitos que combinam com o tema</li>
+        </ul>
+        <p>Use o CapCut para a maioria das edições. Ele tem uma biblioteca enorme de efeitos e sons.</p>
+      </div>
+    </section>
+
+    <!-- Capítulo 7: Estratégia de Posting -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Capítulo 7: Estratégia de Posting</h2>
+      <div class="prose prose-invert prose-lg max-w-none">
+        <h3>7.1 Frequência ideal para crescimento</h3>
+        <p>Para crescer rápido, publique de 2 a 4 vídeos por dia. Distribua em horários de pico (geralmente 18h-22h). Use o analytics do TikTok para descobrir quando seu público está mais ativo.</p>
+        <p><strong>Template de Calendário de Conteúdo:</strong> (disponível para download)</p>
+      </div>
+    </section>
+
+    <!-- Capítulo 8: Séries e Formatos Recorrentes -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Capítulo 8: Séries e Formatos Recorrentes</h2>
+      <div class="prose prose-invert prose-lg max-w-none">
+        <p>Criar uma série (ex: "Dica #1", "Aprendendo algo novo todo dia") faz com que os seguidores voltem para acompanhar. Isso aumenta a retenção e a fidelidade.</p>
+      </div>
+    </section>
+
+    <!-- Capítulo 9: Análise e Otimização -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Capítulo 9: Análise e Otimização</h2>
+      <div class="prose prose-invert prose-lg max-w-none">
+        <h3>9.1 Métricas que importam</h3>
+        <ul>
+          <li>Taxa de conclusão</li>
+          <li>Tempo médio de visualização</li>
+          <li>Novos seguidores por vídeo</li>
+          <li>Comentários e compartilhamentos</li>
+        </ul>
+        <p>Use o TikTok Analytics para identificar padrões. Se um vídeo foi bem, replique o formato.</p>
+      </div>
+    </section>
+
+    <!-- Capítulo 10: Construção de Comunidade -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Capítulo 10: Construção de Comunidade</h2>
+      <div class="prose prose-invert prose-lg max-w-none">
+        <p>Responda a todos os comentários, faça lives, crie enquetes. Quanto mais você interagir, mais o algoritmo mostrará seu conteúdo para seus seguidores.</p>
+      </div>
+    </section>
+
+    <!-- Capítulo 11: Monetização no TikTok -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Capítulo 11: Monetização no TikTok</h2>
+      <div class="prose prose-invert prose-lg max-w-none">
+        <h3>11.1 Formas de ganhar dinheiro</h3>
+        <ul>
+          <li><strong>Fundo de Criadores:</strong> Disponível em alguns países, paga por visualizações.</li>
+          <li><strong>Parcerias de marca:</strong> Empresas pagam para você divulgar produtos.</li>
+          <li><strong>Vendas diretas:</strong> Use o TikTok Shop ou link na bio.</li>
+          <li><strong>Presentes em lives:</strong> Seguidores podem enviar presentes virtuais.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Capítulo 12: Escala e Multiplicação -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Capítulo 12: Escala e Multiplicação</h2>
+      <div class="prose prose-invert prose-lg max-w-none">
+        <p>Depois que seu sistema estiver funcionando, crie múltiplas contas em nichos diferentes. Use a mesma metodologia para multiplicar seus resultados.</p>
+      </div>
+    </section>
+
+    <!-- Seção de ferramentas -->
+    <section class="mb-12 bg-slate-800/30 rounded-2xl p-8 border border-white/5">
+      <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+        <Star class="w-5 h-5 text-amber-400" /> Ferramentas recomendadas
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+            <Video class="w-5 h-5" />
+          </div>
+          <div>
+            <h3 class="text-white font-semibold">CapCut</h3>
+            <p class="text-sm text-slate-400">Edição gratuita, templates, efeitos</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+            <Music class="w-5 h-5" />
+          </div>
+          <div>
+            <h3 class="text-white font-semibold">Epidemic Sound</h3>
+            <p class="text-sm text-slate-400">Músicas livres de direitos (pago)</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+            <TrendingUp class="w-5 h-5" />
+          </div>
+          <div>
+            <h3 class="text-white font-semibold">TikTok Analytics</h3>
+            <p class="text-sm text-slate-400">Métricas nativas da plataforma</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+            <DollarSign class="w-5 h-5" />
+          </div>
+          <div>
+            <h3 class="text-white font-semibold">Social Blade</h3>
+            <p class="text-sm text-slate-400">Estimativa de ganhos e estatísticas</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Templates para download -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+        <Download class="w-5 h-5 text-cyan-400" /> Templates e recursos baixáveis
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="bg-slate-800/50 rounded-xl p-4 border border-white/5 hover:border-cyan-500/30 transition">
+          <h3 class="text-white font-semibold mb-2 flex items-center gap-2">
+            <FileText class="w-4 h-4 text-cyan-400" /> Hook Swipe File
+          </h3>
+          <p class="text-sm text-slate-400 mb-3">50 hooks prontos para usar</p>
+          <a href="/downloads/hook-swipe-file.txt" download class="text-cyan-400 text-sm hover:underline flex items-center gap-1">
+            Baixar <Download class="w-3 h-3" />
+          </a>
+        </div>
+        <div class="bg-slate-800/50 rounded-xl p-4 border border-white/5 hover:border-cyan-500/30 transition">
+          <h3 class="text-white font-semibold mb-2 flex items-center gap-2">
+            <FileText class="w-4 h-4 text-cyan-400" /> Content Calendar Template
+          </h3>
+          <p class="text-sm text-slate-400 mb-3">Planilha para planejar posts</p>
+          <a href="/downloads/content-calendar-tiktok.xlsx" download class="text-cyan-400 text-sm hover:underline flex items-center gap-1">
+            Baixar <Download class="w-3 h-3" />
+          </a>
+        </div>
+        <div class="bg-slate-800/50 rounded-xl p-4 border border-white/5 hover:border-cyan-500/30 transition">
+          <h3 class="text-white font-semibold mb-2 flex items-center gap-2">
+            <FileText class="w-4 h-4 text-cyan-400" /> Format Library
+          </h3>
+          <p class="text-sm text-slate-400 mb-3">20+ formatos de vídeo com exemplos</p>
+          <a href="/downloads/format-library.pdf" download class="text-cyan-400 text-sm hover:underline flex items-center gap-1">
+            Baixar <Download class="w-3 h-3" />
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call-to-action para a Trilha IA -->
+    <div class="bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-3xl p-8 text-center border border-cyan-500/30">
+      <h2 class="text-3xl font-heading font-bold text-white mb-4">Este é apenas o começo</h2>
+      <p class="text-slate-300 text-lg mb-6 max-w-2xl mx-auto">
+        Na Trilha IA completa, você aprende a escalar sua produção, monetizar de verdade e construir um negócio sustentável no TikTok.
+      </p>
+      <a href="/cursos" class="inline-block px-8 py-4 bg-cyan-500 text-white font-bold rounded-xl text-lg hover:bg-cyan-600 transition shadow-lg shadow-cyan-500/30">
+        Quero acelerar meus resultados
+      </a>
+      <p class="text-sm text-slate-500 mt-4">Acesso imediato por R$ 297</p>
+    </div>
+  </div>
+</MainLayout>
