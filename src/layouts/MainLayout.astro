@@ -35,21 +35,24 @@ const fullTitle = `${title} | SekkoLab IA`;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     
-    <!-- Preconnect para performance -->
+    <script 
+      is:inline 
+      async 
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3739083260952755"
+      crossorigin="anonymous">
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <!-- Fontes -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,900&display=swap" rel="stylesheet">
 
-    <!-- SEO Básico -->
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
     {noIndex && <meta name="robots" content="noindex, nofollow" />}
     
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content={type} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={fullTitle} />
@@ -60,7 +63,6 @@ const fullTitle = `${title} | SekkoLab IA`;
     {publishedTime && <meta property="article:published_time" content={publishedTime} />}
     {author && <meta property="article:author" content={author} />}
     
-    <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={canonicalURL} />
     <meta property="twitter:title" content={fullTitle} />
@@ -69,8 +71,7 @@ const fullTitle = `${title} | SekkoLab IA`;
     <meta property="twitter:site" content="@sekkolab" />
     <meta property="twitter:creator" content="@sekkolab" />
     
-    <!-- Schema.org para Organization -->
-    <script type="application/ld+json">
+    <script type="application/ld+json" is:inline>
       {
         "@context": "https://schema.org",
         "@type": "Organization",
@@ -91,5 +92,5 @@ const fullTitle = `${title} | SekkoLab IA`;
       <slot />
     </main>
     <Footer />
-  </body>
+  </body> 
 </html>
