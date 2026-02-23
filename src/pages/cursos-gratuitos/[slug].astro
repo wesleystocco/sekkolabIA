@@ -30,10 +30,20 @@ try {
   };
 }
 
-const totalPerguntas = dadosCurso.modulos?.reduce((acc, m) => 
-  acc + m.microModulos?.reduce((acc2, mm) => acc2 + (mm.pergunta ? 1 : 0), 0), 0) || 0;
+// Total de perguntas no curso (soma dos micro-módulos que têm pergunta)
+const totalPerguntas = (dadosCurso.modulos || []).reduce((acc, modulo) => {
+  const perguntasNoModulo = (modulo.microModulos || []).reduce(
+    (acc2, mm) => acc2 + (mm.pergunta ? 1 : 0),
+    0
+  );
+  return acc + perguntasNoModulo;
+}, 0);
 
-const totalModulos = dadosCurso.modulos?.reduce((acc, m) => acc + (m.microModulos?.length || 0), 0) || 0;
+// Total de micro-módulos no curso
+const totalModulos = (dadosCurso.modulos || []).reduce(
+  (acc, modulo) => acc + (modulo.microModulos?.length || 0),
+  0
+);
 
 // Dados iniciais de gamificação
 const pontosUsuario = 150;
@@ -115,7 +125,7 @@ const streakData = new Date().toISOString().split('T')[0];
         Quanto tempo você tem hoje?
       </h2>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <button class="tempo-card group relative overflow-hidden rounded-xl p-4 transition-all duration-300 bg-slate-700 hover:bg-slate-600 data-[active=true]:bg-cyan-600" data-time="15">
+        <button class="tempo-card group relative overflow-hidden rounded-xl p-4 transition-all duration-300 bg-slate-700 hover:bg-slate-600" data-time="15">
           <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
           <span class="block text-2xl font-bold text-white">15</span>
           <span class="text-xs text-slate-300">min • rápido</span>
@@ -151,7 +161,7 @@ const streakData = new Date().toISOString().split('T')[0];
     <div id="modulos-container" class="space-y-8"></div>
   </div>
 
-  <!-- Pausa Ativa – sem client:load, pois é um componente Astro puro -->
+  <!-- Pausa Ativa -->
   <PausaAtiva />
 </MainLayout>
 
@@ -182,14 +192,12 @@ const streakData = new Date().toISOString().split('T')[0];
     pontos += valor;
     localStorage.setItem('pontos', pontos);
     
-    // Atualizar nível (a cada 500 pontos)
     const novoNivel = Math.floor(pontos / 500) + 1;
     if (novoNivel > nivel) {
       nivel = novoNivel;
       localStorage.setItem('nivel', nivel);
     }
     
-    // Disparar evento para atualizar o componente Pontuacao (opcional)
     document.dispatchEvent(new CustomEvent('atualizar-pontuacao', { 
       detail: { pontos, nivel, conquistas } 
     }));
@@ -204,10 +212,9 @@ const streakData = new Date().toISOString().split('T')[0];
     return arr;
   }
 
-  // Selecionar módulos com base no tempo e garantir pelo menos 5 perguntas
+  // Selecionar módulos com base no tempo
   function getModulosPorTempo(tempo) {
     const naoConcluidos = todosMicroModulos.filter(m => !concluidos.includes(m.id));
-    
     const perguntasAlvo = Math.max(5, Math.floor(tempo / 3));
     
     let selecionados = [];
